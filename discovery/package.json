@@ -1,0 +1,20 @@
+{
+  "name": "discovery",
+  "version": "1.0.0",
+  "description": "Crawls the web for new podcasts and updates ElasticSearch with the latest podcasts",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7"
+  }
+}
