@@ -1,9 +1,9 @@
 import axios from 'axios';
-import iTunesProvider from "./providers/iTunes";
+import getProvider from './providers/ProviderSelectionUtil';
 
-var url = "https://podcasts.apple.com/us/genre/podcasts-arts/id1301";
+var url = "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752";
 
-var provider = new iTunesProvider();
+var provider = getProvider(url);
 
 axios.get(url).then(response => {
   const crawlableUrls = provider.getCrawlableUrls(response.data, url);
@@ -16,9 +16,14 @@ axios.get(url).then(response => {
 
   var id = provider.getPodcastId(url);
   if (id !== null) {
-    var metadata = provider.lookup(id)
-    console.log(metadata);
-    // TODO: save it to ElasticSearch here
+    provider.getMetadata(id).then(metadata => {
+      console.log(metadata.data);
+      // TODO: save it to ElasticSearch here
+    }).catch(error => {
+      console.log("Error in lookup");
+      // add this URL back to the queue and start new server - shut this one down
+      // could just wait 5 seconds for every request to make sure this never gets rate limited
+    })
   }
   
 }).catch(error => {

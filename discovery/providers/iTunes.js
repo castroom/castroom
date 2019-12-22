@@ -24,11 +24,11 @@ export default class iTunesProvider {
     return null;
   }
 
-  lookup(podcastId) {
+  getMetadata(podcastId) {
     console.log("Looking up", podcastId);
-    var lookupUrl = `https://itunes.apple.com/lookup?id=${id}`;
+    var lookupUrl = `https://itunes.apple.com/lookup?id=${podcastId}`;
 
-    return {};
+    return axios.get(lookupUrl);
   }
 
 }
