@@ -1,21 +1,24 @@
 import axios from 'axios';
 import getProvider from './providers/ProviderSelectionUtil';
+import QueueService from "./services/QueueService";
 
 var url = "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752";
 
 var provider = getProvider(url);
+var queue = new QueueService();
 
 axios.get(url).then(response => {
   const crawlableUrls = provider.getCrawlableUrls(response.data, url);
   console.log(crawlableUrls)
 
+  // add all outgoing urls to the buffer
   crawlableUrls.forEach(url => {
-    // TODO: add this url to the queue - could also do a batch update
-    console.log("Adding", url, "to the queue");
+    queue.push(url);
   });
 
   var id = provider.getPodcastId(url);
-  if (id !== null) {
+  var isPodcastLink = id !== null;    // as opposed to a page#, category link
+  if (isPodcastLink) {
     provider.getMetadata(id).then(metadata => {
       console.log(metadata.data);
       // TODO: save it to ElasticSearch here
@@ -25,6 +28,9 @@ axios.get(url).then(response => {
       // could just wait 5 seconds for every request to make sure this never gets rate limited
     })
   }
+
+  // push the outgoing links from buffer to SQS
+  queue.send();
   
 }).catch(error => {
   // save the message back in the queue so that we can go over it at some point

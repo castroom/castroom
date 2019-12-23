@@ -1,13 +1,19 @@
 export default class QueueService {
   constructor() {
-    // TODO:
+    this.buffer = [];
   }
 
-  push() {
-    // TODO: 
+  push(item) {
+    // TODO:
+    this.buffer.push(item); 
+  }
+
+  clear() {
+    this.buffer = [];
   }
 
   send() {
-    // TODO:
+    console.log("Sending", this.buffer);
+    this.clear();
   }
 }
