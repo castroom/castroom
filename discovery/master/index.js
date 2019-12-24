@@ -11,7 +11,7 @@ cache.clear();
 const app = express();
 app.use(bodyParser.json());
 
-app.post('/submit', (req, res) => {
+app.post('/push', (req, res) => {
     var urls = req.body.urls;
     
     // end the connection immediately since we have nothing to send back to the workers

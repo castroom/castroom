@@ -6,7 +6,6 @@ export default class QueueService {
     }
     
     push(item) {
-        // TODO:
         this.buffer.push(item); 
     }
     
@@ -17,7 +16,7 @@ export default class QueueService {
     send() {
         console.log("Sending", this.buffer);
         
-        axios.post("http://127.0.0.1:8080/submit", {
+        axios.post("http://127.0.0.1:8080/push", {
             urls: this.buffer
         }).then(response => {
             console.log("Response Code:", response.status);
