@@ -7,14 +7,16 @@
     "start": "babel-node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "express": "^4.17.1",
+    "leveldown": "^5.4.1",
+    "levelup": "^4.3.2"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
     "@babel/preset-env": "^7.7.7"
-  },
-  "dependencies": {
-    "express": "^4.17.1"
   }
 }
