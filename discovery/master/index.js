@@ -5,38 +5,33 @@ import bodyParser from 'body-parser';
 
 // TODO: clear out the old database here
 var cache = levelup(leveldown("./cache"))
+cache.clear();
 // var buffer = [];
 
 const app = express();
 app.use(bodyParser.json());
 
 app.post('/submit', (req, res) => {
-    var key = "test";
-    var value = "test_val";
-
-    console.log(req.body);
-
+    var urls = req.body.urls;
+    
     // end the connection immediately since we have nothing to send back to the workers
     res.status(200).send(); 
 
-    cache.get(key, (gerr) => {
-        if (gerr) {
-            // not found in cache
-            console.log(gerr);
-
-            cache.put(key, value, (perr) => {
-                if (perr) {
-                    console.log(perr);
-                } else {
-                    console.log(key, "was pushed");
-                }
-            });
-        } else {
-            // already exists in cache
-            console.log(key, "already exists");
-        }
-    });
-    
+    urls.forEach(url => {
+        cache.get(url, (gerr) => {
+            if (gerr) {
+                // not found in cache - add it
+                cache.put(url, "").then(() => {
+                    console.log(url, "was pushed");
+                }).catch(perr => {
+                    console.log("Error:", perr);
+                })
+            } else {
+                // already exists in cache
+                console.log(url, "already exists");
+            }
+        });
+    })
 });
 
 // Start the server

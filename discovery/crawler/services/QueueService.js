@@ -18,7 +18,7 @@ export default class QueueService {
         console.log("Sending", this.buffer);
         
         axios.post("http://127.0.0.1:8080/submit", {
-            test: "testing"
+            urls: this.buffer
         }).then(response => {
             console.log("Response Code:", response.status);
         }).catch(error => {
