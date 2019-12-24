@@ -1,0 +1,20 @@
+{
+  "name": "master",
+  "version": "1.0.0",
+  "description": "The master node that is in charge or coordinating the crawl jobs. It handles the crawl start, as well as the caching mechanism that acts as a middle-man between the worker nodes and Amazon SQS.",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

@@ -15,6 +15,8 @@ axios.get(url).then(response => {
   crawlableUrls.forEach(url => {
     queue.push(url);
   });
+  // push the outgoing links from buffer to SQS
+  queue.send();
 
   var id = provider.getPodcastId(url);
   var isPodcastLink = id !== null;    // as opposed to a page#, category link
@@ -23,14 +25,11 @@ axios.get(url).then(response => {
       console.log(metadata.data);
       // TODO: save it to ElasticSearch here
     }).catch(error => {
-      console.log("Error in lookup");
+      console.log("Error in lookup", error);
       // add this URL back to the queue and start new server - shut this one down
       // could just wait 5 seconds for every request to make sure this never gets rate limited
     })
   }
-
-  // push the outgoing links from buffer to SQS
-  queue.send();
   
 }).catch(error => {
   // save the message back in the queue so that we can go over it at some point
