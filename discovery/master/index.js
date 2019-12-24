@@ -1,16 +1,20 @@
 import express from 'express';
 import levelup from 'levelup';
 import leveldown from 'leveldown';
+import bodyParser from 'body-parser';
 
 // TODO: clear out the old database here
 var cache = levelup(leveldown("./cache"))
 // var buffer = [];
 
 const app = express();
+app.use(bodyParser.json());
 
-app.get('/submit', (req, res) => {
+app.post('/submit', (req, res) => {
     var key = "test";
     var value = "test_val";
+
+    console.log(req.body);
 
     // end the connection immediately since we have nothing to send back to the workers
     res.status(200).send(); 
@@ -32,7 +36,6 @@ app.get('/submit', (req, res) => {
             console.log(key, "already exists");
         }
     });
-    
     
 });
 
