@@ -1,55 +1,72 @@
 // import AWS from "aws-sdk";
 var AWS = require('aws-sdk');
 
-AWS.config.update({region: 'us-east-2'});
-
-var credentials = new AWS.SharedIniFileCredentials({profile: 'discovery-master'});
-AWS.config.credentials = credentials;
-
-var queueUrl = "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue";
-
-
-console.log(1);
-var sqs = new AWS.SQS({apiVersion: "2012-11-05"});
-console.log(2);
-// var params = {
-//   MessageBody: "www.maharsh.net/test",
-//   QueueUrl: queueUrl
-// }
-
-var params = {
-  MaxNumberOfMessages: 1,
-  QueueUrl: queueUrl,
-  WaitTimeSeconds: 0
+var config = {
+  region: "us-east-2",
+  credentialsProfile: "discovery-master",
+  queueUrl: "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue",
+  apiVersion: "2012-11-05"
 }
 
-console.log(3);
+class SQSManager {
+  constructor(config) {
+    this.config = config;
+    this.queueUrl = config.queueUrl;
 
-sqs.receiveMessage(params, function(err, data) {
-  if (err) {
-    console.log("Error", err);
-  } else if (data.Messages) {
-    var url = data.Messages[0].Body;
-    console.log(url);
-    // var deleteParams = {
-    //   QueueUrl: queueUrl,
-    //   ReceiptHandle: data.Messages[0].ReceiptHandle
-    // };
+    AWS.config.update({region: config.region});
+    AWS.config.credentials = new AWS.SharedIniFileCredentials({profile: config.credentialsProfile});
 
-    // sqs.deleteMessage(deleteParams, function(err, data) {
-    //   if (err) {
-    //     console.log("Delete Error", err);
-    //   } else {
-    //     console.log("Message Deleted", data);
-    //   }
-    // })
+    this.sqs = new AWS.SQS({apiVersion: config.apiVersion});
   }
-})
-// sqs.sendMessage(params, function(err, data) {
-//   console.log(4);
+
+  sendMessage(message) {
+    var params = {
+      MessageBody: message,
+      QueueUrl: this.queueUrl
+    }
+
+    this.sqs.sendMessage(params, function(err, data) {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Pushed to Queue:", data.MessageId);
+      }
+    });
+  }
+}
+
+var queue = new SQSManager(config);
+queue.sendMessage("google.com");
+
+// // console.log(1);
+// // var sqs = new AWS.SQS({apiVersion: "2012-11-05"});
+// // console.log(2);
+
+// var params = {
+//   MaxNumberOfMessages: 1,
+//   QueueUrl: config.queueUrl,
+//   WaitTimeSeconds: 0
+// }
+
+// console.log(3);
+
+// sqs.receiveMessage(params, function(err, data) {
 //   if (err) {
 //     console.log("Error", err);
-//   } else {
-//     console.log("Success", data.MessageId);
+//   } else if (data.Messages) {
+//     var url = data.Messages[0].Body;
+//     console.log(url);
+//     // var deleteParams = {
+//     //   QueueUrl: config.queueUrl,
+//     //   ReceiptHandle: data.Messages[0].ReceiptHandle
+//     // };
+
+//     // sqs.deleteMessage(deleteParams, function(err, data) {
+//     //   if (err) {
+//     //     console.log("Delete Error", err);
+//     //   } else {
+//     //     console.log("Message Deleted", data);
+//     //   }
+//     // })
 //   }
-// });
+// })
