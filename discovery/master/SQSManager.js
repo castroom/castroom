@@ -16,7 +16,7 @@ class SQSManager {
     AWS.config.update({region: config.region});
     AWS.config.credentials = new AWS.SharedIniFileCredentials({profile: config.credentialsProfile});
 
-    this.sqs = new AWS.SQS({apiVersion: config.apiVersion});
+    this.sqs = new AWS.SQS({apiVersion: config.apiVersion})
   }
 
   sendMessage(message) {
@@ -51,6 +51,7 @@ class SQSManager {
 }
 
 var queue = new SQSManager(config);
+
 
 // // Send Message
 // queue.sendMessage("Testing Message").then(data => {

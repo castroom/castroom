@@ -15,6 +15,9 @@
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
-    "@babel/preset-env": "^7.7.7"
+    "@babel/preset-env": "^7.7.7",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1"
   }
 }
