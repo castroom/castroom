@@ -1,56 +1,57 @@
-// import AWS from "aws-sdk";
-var AWS = require('aws-sdk');
-
-var config = {
-  region: "us-east-2",
-  credentialsProfile: "discovery-master",
-  queueUrl: "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue",
-  apiVersion: "2012-11-05"
-}
+import AWS from "aws-sdk";
+import config from "./config";
 
 class SQSManager {
-  constructor(config) {
-    this.config = config;
+  constructor() {
     this.queueUrl = config.queueUrl;
 
-    AWS.config.update({region: config.region});
-    AWS.config.credentials = new AWS.SharedIniFileCredentials({profile: config.credentialsProfile});
+    AWS.config.update({ region: config.region });
+    AWS.config.credentials = new AWS.SharedIniFileCredentials({
+      profile: config.credentialsProfile,
+    });
 
-    this.sqs = new AWS.SQS({apiVersion: config.apiVersion})
+    this.sqs = new AWS.SQS({ apiVersion: config.apiVersion });
   }
 
   sendMessage(message) {
-    var params = {
+    const params = {
       MessageBody: message,
-      QueueUrl: this.queueUrl
-    }
+      QueueUrl: this.queueUrl,
+    };
 
     return this.sqs.sendMessage(params).promise();
   }
 
   receiveMessage() {
-    var params = {
+    const params = {
       MaxNumberOfMessages: 1,
       QueueUrl: this.queueUrl,
       // how long it will wait to gather the messages
-      // sometimes responses are empty so a higher number will prevent empty responses -> lower cost but slower reading
-      WaitTimeSeconds: 1
-    }
+      // sometimes responses are empty so a higher number will prevent
+      // empty responses -> lower cost but slower reading
+      WaitTimeSeconds: 1,
+    };
 
     return this.sqs.receiveMessage(params).promise();
   }
 
   deleteMessage(receiptHandle) {
-    var params  = {
+    const params = {
       QueueUrl: this.queueUrl,
-      ReceiptHandle: receiptHandle
+      ReceiptHandle: receiptHandle,
     };
 
     return this.sqs.deleteMessage(params).promise();
   }
 }
+// const config = {
+//   region: "us-east-2",
+//   credentialsProfile: "discovery-master",
+//   queueUrl: "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue",
+//   apiVersion: "2012-11-05",
+// };
 
-var queue = new SQSManager(config);
+// var queue = new SQSManager(config);
 
 
 // // Send Message
