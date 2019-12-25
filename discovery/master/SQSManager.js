@@ -25,48 +25,58 @@ class SQSManager {
       QueueUrl: this.queueUrl
     }
 
-    this.sqs.sendMessage(params, function(err, data) {
-      if (err) {
-        console.log("Error", err);
-      } else {
-        console.log("Pushed to Queue:", data.MessageId);
-      }
-    });
+    return this.sqs.sendMessage(params).promise();
+  }
+
+  receiveMessage() {
+    var params = {
+      MaxNumberOfMessages: 1,
+      QueueUrl: this.queueUrl,
+      // how long it will wait to gather the messages
+      // sometimes responses are empty so a higher number will prevent empty responses -> lower cost but slower reading
+      WaitTimeSeconds: 1
+    }
+
+    return this.sqs.receiveMessage(params).promise();
+  }
+
+  deleteMessage(receiptHandle) {
+    var params  = {
+      QueueUrl: this.queueUrl,
+      ReceiptHandle: receiptHandle
+    };
+
+    return this.sqs.deleteMessage(params).promise();
   }
 }
 
 var queue = new SQSManager(config);
-queue.sendMessage("google.com");
 
-// // console.log(1);
-// // var sqs = new AWS.SQS({apiVersion: "2012-11-05"});
-// // console.log(2);
-
-// var params = {
-//   MaxNumberOfMessages: 1,
-//   QueueUrl: config.queueUrl,
-//   WaitTimeSeconds: 0
-// }
-
-// console.log(3);
-
-// sqs.receiveMessage(params, function(err, data) {
-//   if (err) {
-//     console.log("Error", err);
-//   } else if (data.Messages) {
-//     var url = data.Messages[0].Body;
-//     console.log(url);
-//     // var deleteParams = {
-//     //   QueueUrl: config.queueUrl,
-//     //   ReceiptHandle: data.Messages[0].ReceiptHandle
-//     // };
-
-//     // sqs.deleteMessage(deleteParams, function(err, data) {
-//     //   if (err) {
-//     //     console.log("Delete Error", err);
-//     //   } else {
-//     //     console.log("Message Deleted", data);
-//     //   }
-//     // })
-//   }
+// // Send Message
+// queue.sendMessage("Testing Message").then(data => {
+//   console.log("Pushed to Queue:", data.MessageId);
+// }).catch(err => {
+//   console.log("Error", err);
 // })
+
+// // Receive Message
+// queue.receiveMessage().then(data => {
+//   if (data.Messages) {
+//     console.log(data.Messages);
+//     var message = data.Messages[0].Body;
+//     console.log("Message Received", message);
+//   } else {
+//     console.log("No Messages");
+//   }
+// }).catch(err => {
+//   console.log("Receive Error", err);
+// })
+
+// // Delete
+// var receiptHandle = "AQEB7Caq/AWSfkvCrevPZnNcZMWDaCRLevCTnhcswZ4Nz30UZ9arZ4VlVZHGh9cLlkcMXcw45iKENn3fpzBXkHy+0WK07dFpYHjPf9FHwjkKd9/bcYpK4l/niekfuOJitWF6ZadhJsRtvbUIhKSK8ITwItS6E8DkvOe9tqzNn8zGdJVvOKOwnN38ak9ULqpBBgz7TyLikjw6mDl1cmuC7Tx4CAhYi/d2nH3vKD+DrdQGq1iYshFmg6FG3Wf7PMSjSQAadRWXn0coRk0nKrmv3kgAGpvrB3mrTlOMkG9xJZfcdqqrdy/FLIVOW7SkgxS/0DRAbGYw7wHWS6qfEgoaGr3Ck+4LSiCgaAyGFMKZun+z3HV0HUQOrVZ2rxAbE0KRLOeGAw2/g3I3OSjywG6iFuEfQQ=="
+// queue.deleteMessage(receiptHandle).then(data => {
+//   console.log("Deleted", data);
+// }).catch(err => {
+//   console.log("Delete Error", err);
+// })
+
