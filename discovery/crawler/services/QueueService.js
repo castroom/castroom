@@ -16,13 +16,11 @@ export default class QueueService {
   send() {
     // sends the buffered messages to the master node
     console.log("Sending", this.buffer);
-    axios.post("http://127.0.0.1:8080/push", {
+    return axios.post("http://127.0.0.1:8080/push", {
       urls: this.buffer,
     }).then((response) => {
+      this.clear();
       console.log("Response Code:", response.status);
-    }).catch((error) => {
-      console.log("Error:", error.response.statusText);
     });
-    this.clear();
   }
 }

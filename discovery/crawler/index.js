@@ -7,20 +7,59 @@ import config from "./config";
 
 // const urlFromQueue = "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752";
 
-// const provider = getProvider(urlFromQueue);
-// const queue = new QueueService();
-let triesRemaining = 5;
+
+const queue = new QueueService();
+let triesRemaining = 2;
 
 AWS.config.update({ region: config.region });
 AWS.config.credentials = new AWS.SharedIniFileCredentials({
   profile: config.credentialsProfile,
 });
 
+
+function crawlUrl(url) {
+  console.log(url);
+  const provider = getProvider(url);
+
+  axios.get(url).then((response) => {
+    const crawlableUrls = provider.getCrawlableUrls(response.data, url);
+    console.log(crawlableUrls);
+
+    // add all outgoing urls to the buffer
+    crawlableUrls.forEach((crawlableUrl) => {
+      queue.push(crawlableUrl);
+    });
+    // push the outgoing links from buffer to SQS
+    queue.send().catch((error) => {
+      // MIGHT WANT TO HANDLE THIS OUTSIDE BY STOPPING THE CRAWLING
+      console.log("Error:", error);
+    });
+
+    const id = provider.getPodcastId(url);
+    const isPodcastLink = id !== null; // as opposed to a page#, category link
+    if (isPodcastLink) {
+      provider.getMetadata(id).then((metadata) => {
+        console.log(metadata.data);
+        // TODO: save it to ElasticSearch here
+      }).catch((error) => {
+        console.log("Error in lookup", error);
+        // add this URL back to the queue and start new server - shut this one down
+        // could just wait 5 seconds for every request to make sure this never gets rate limited
+      });
+    }
+  }).catch((error) => {
+    // save the message back in the queue so that we can go over it at some point
+    // set the tried count to 1 -> if this count is 2 then just discard the item since
+    // this link is broken
+    console.log(error);
+  });
+}
+
+// crawlUrl("https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752");
+
 const app = Consumer.create({
   queueUrl: config.queueUrl,
-  handleMessage: async (message) => {
-    console.log("Message Picked: ", message);
-  },
+  handleMessage: async (message) => crawlUrl(message.Body),
   sqs: new AWS.SQS(),
   // rate limit is 20/minute - so pause for 3 seconds between each URL
   // split this between waiting and repolling frequency
@@ -50,36 +89,5 @@ app.on("empty", () => {
     app.stop();
   }
 });
-
-
-// axios.get(urlFromQueue).then((response) => {
-//   const crawlableUrls = provider.getCrawlableUrls(response.data, urlFromQueue);
-//   console.log(crawlableUrls);
-
-//   // add all outgoing urls to the buffer
-//   crawlableUrls.forEach((url) => {
-//     queue.push(url);
-//   });
-//   // push the outgoing links from buffer to SQS
-//   queue.send();
-
-//   const id = provider.getPodcastId(urlFromQueue);
-//   const isPodcastLink = id !== null; // as opposed to a page#, category link
-//   if (isPodcastLink) {
-//     provider.getMetadata(id).then((metadata) => {
-//       console.log(metadata.data);
-//       // TODO: save it to ElasticSearch here
-//     }).catch((error) => {
-//       console.log("Error in lookup", error);
-//       // add this URL back to the queue and start new server - shut this one down
-//       // could just wait 5 seconds for every request to make sure this never gets rate limited
-//     });
-//   }
-// }).catch((error) => {
-//   // save the message back in the queue so that we can go over it at some point
-//   // set the tried count to 1 -> if this count is 2 then just discard the item since
-//   // this link is broken
-//   console.log(error);
-// });
 
 app.start();

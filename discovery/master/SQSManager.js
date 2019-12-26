@@ -59,7 +59,7 @@ const queue = new SQSManager();
 
 
 // // Send Message
-queue.sendMessage("www.d.com").then((data) => {
+queue.sendMessage("https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752").then((data) => {
   console.log("Pushed to Queue:", data.MessageId);
 }).catch((err) => {
   console.log("Error", err);
