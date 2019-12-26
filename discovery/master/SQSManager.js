@@ -1,5 +1,7 @@
-import AWS from "aws-sdk";
-import config from "./config";
+// import AWS from "aws-sdk";
+var AWS = require('aws-sdk');
+var config = require("./config");
+// import config from "./config";
 
 class SQSManager {
   constructor() {
@@ -14,6 +16,8 @@ class SQSManager {
   }
 
   sendMessage(message) {
+    // TODO: look into a batch send for SQS
+
     const params = {
       MessageBody: message,
       QueueUrl: this.queueUrl,
@@ -51,15 +55,15 @@ class SQSManager {
 //   apiVersion: "2012-11-05",
 // };
 
-// var queue = new SQSManager(config);
+const queue = new SQSManager();
 
 
 // // Send Message
-// queue.sendMessage("Testing Message").then(data => {
-//   console.log("Pushed to Queue:", data.MessageId);
-// }).catch(err => {
-//   console.log("Error", err);
-// })
+queue.sendMessage("www.d.com").then((data) => {
+  console.log("Pushed to Queue:", data.MessageId);
+}).catch((err) => {
+  console.log("Error", err);
+});
 
 // // Receive Message
 // queue.receiveMessage().then(data => {
