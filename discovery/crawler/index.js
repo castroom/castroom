@@ -1,23 +1,13 @@
 import axios from "axios";
-import AWS from "aws-sdk";
-const { Consumer } = require('sqs-consumer');
 import getProvider from "./providers/ProviderSelectionUtil";
 import QueueService from "./services/QueueService";
-import config from "./config";
-
-// const urlFromQueue = "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752";
-
 
 const queue = new QueueService();
-let triesRemaining = 2;
 
-AWS.config.update({ region: config.region });
-AWS.config.credentials = new AWS.SharedIniFileCredentials({
-  profile: config.credentialsProfile,
-});
+// when this value is 0, stop all polling since the queue is empty
+let pollTriesRemaining = 3;
 
-
-function crawlUrl(url) {
+function messageHandler(url) {
   console.log(url);
   const provider = getProvider(url);
 
@@ -55,39 +45,31 @@ function crawlUrl(url) {
   });
 }
 
-// crawlUrl("https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752");
-
-const app = Consumer.create({
-  queueUrl: config.queueUrl,
-  handleMessage: async (message) => crawlUrl(message.Body),
-  sqs: new AWS.SQS(),
-  // rate limit is 20/minute - so pause for 3 seconds between each URL
-  // split this between waiting and repolling frequency
-  pollingWaitTimeMs: 2000,
-  waitTimeSeconds: 1,
-});
-
-app.on("error", (err) => {
+function errorHandler(err) {
   console.log("Error", err.message);
-});
+}
 
-app.on("processing_error", (err) => {
+function processingErrorHandler(err) {
   console.log("Processing Error", err.message);
-});
+}
 
-app.on("timeout_error", (err) => {
-  console.error(err.message);
-});
+function timeoutHandler(err) {
+  console.log("Timeout", err.message);
+}
 
-app.on("empty", () => {
+function emptyQueueHandler() {
   console.log("Empty");
-  triesRemaining -= 1;
 
-  if (triesRemaining === 0) {
-    // stop polling to prevent a high cost
-    // should only get here if the queue is empty and we failed to shut off the server
-    app.stop();
+  pollTriesRemaining -= 1;
+  if (pollTriesRemaining === 0) {
+    queue.stopPolling();
   }
-});
+}
 
-app.start();
+queue.startPolling(
+  messageHandler,
+  errorHandler,
+  processingErrorHandler,
+  timeoutHandler,
+  emptyQueueHandler,
+);
