@@ -15,13 +15,8 @@ function messageHandler(url) {
     const crawlableUrls = provider.getCrawlableUrls(response.data, url);
     console.log(crawlableUrls);
 
-    // add all outgoing urls to the buffer
-    crawlableUrls.forEach((crawlableUrl) => {
-      queue.push(crawlableUrl);
-    });
-    // push the outgoing links from buffer to SQS
-    queue.send().catch((error) => {
-      // MIGHT WANT TO HANDLE THIS OUTSIDE BY STOPPING THE CRAWLING
+    queue.batchPush(crawlableUrls).catch((error) => {
+      // might want to stop crawling here in the future
       console.log("Error:", error);
     });
 

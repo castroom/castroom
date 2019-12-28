@@ -5,7 +5,6 @@ import config from "../config";
 
 export default class QueueService {
   constructor() {
-    this.buffer = [];
     this.consumer = null;
 
     AWS.config.update({ region: config.region });
@@ -42,21 +41,12 @@ export default class QueueService {
     }
   }
 
-  push(item) {
-    this.buffer.push(item);
-  }
-
-  clear() {
-    this.buffer = [];
-  }
-
-  send() {
+  static batchPush(items) {
     // sends the buffered messages to the master node
-    console.log("Sending", this.buffer);
+    console.log("Sending", items);
     return axios.post("http://127.0.0.1:8080/push", {
-      urls: this.buffer,
+      urls: items,
     }).then((response) => {
-      this.clear();
       console.log("Response Code:", response.status);
     });
   }
