@@ -1,14 +1,16 @@
 import axios from "axios";
+import config from "./config";
 import getProvider from "./providers/ProviderSelectionUtil";
 import QueueService from "./services/QueueService";
+
 
 const queue = new QueueService();
 
 // when this value is 0, stop all polling since the queue is empty
-let pollTriesRemaining = 3;
+let pollTriesRemaining = config.numTriesPolling;
 
 function messageHandler(url) {
-  console.log(url);
+  console.log("Crawling", url);
   const provider = getProvider(url);
 
   axios.get(url).then((response) => {
@@ -38,6 +40,10 @@ function messageHandler(url) {
     // this link is broken
     console.log(error);
   });
+
+  // if there was an error previously, this value would have been decremented
+  // we want to reset this to measure consecutive errors
+  pollTriesRemaining = config.numTriesPolling;
 }
 
 function errorHandler(err) {
