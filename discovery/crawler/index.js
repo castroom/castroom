@@ -38,7 +38,7 @@ function messageHandler(url) {
     // save the message back in the queue so that we can go over it at some point
     // set the tried count to 1 -> if this count is 2 then just discard the item since
     // this link is broken
-    console.log(error);
+    console.log("Crawl Error:", error);
   });
 
   // if there was an error previously, this value would have been decremented

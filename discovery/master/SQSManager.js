@@ -15,15 +15,22 @@ class SQSManager {
     this.sqs = new AWS.SQS({ apiVersion: config.apiVersion });
   }
 
-  sendMessage(message) {
+  sendMessage(messages) {
     // TODO: look into a batch send for SQS
+    const entries = [];
+    for (let i = 0; i < messages.length; i += 1) {
+      entries.push({
+        Id: i.toString(), // only needs to be unique per request
+        MessageBody: messages[i],
+      });
+    }
 
     const params = {
-      MessageBody: message,
+      Entries: entries,
       QueueUrl: this.queueUrl,
     };
 
-    return this.sqs.sendMessage(params).promise();
+    return this.sqs.sendMessageBatch(params).promise();
   }
 }
 
@@ -31,8 +38,8 @@ const queue = new SQSManager();
 
 
 // // Send Message
-queue.sendMessage("https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752").then((data) => {
-  console.log("Pushed to Queue:", data.MessageId);
+queue.sendMessage(["https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752"]).then((data) => {
+  console.log("Pushed to Queue:", data);
 }).catch((err) => {
   console.log("Error", err);
 });
