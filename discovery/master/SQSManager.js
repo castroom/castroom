@@ -15,8 +15,7 @@ class SQSManager {
     this.sqs = new AWS.SQS({ apiVersion: config.apiVersion });
   }
 
-  sendMessage(messages) {
-    // TODO: look into a batch send for SQS
+  batchPush(messages) {
     const entries = [];
     for (let i = 0; i < messages.length; i += 1) {
       entries.push({
@@ -25,12 +24,19 @@ class SQSManager {
       });
     }
 
-    const params = {
-      Entries: entries,
-      QueueUrl: this.queueUrl,
-    };
+    const promises = [];
 
-    return this.sqs.sendMessageBatch(params).promise();
+    // send the items in batches of 10 (limit of the SQS API)
+    while (entries.length) {
+      const batch = entries.splice(0, 10);
+      const params = {
+        Entries: batch,
+        QueueUrl: this.queueUrl,
+      };
+      promises.push(this.sqs.sendMessageBatch(params).promise());
+    }
+
+    return Promise.all(promises);
   }
 }
 
@@ -38,7 +44,7 @@ const queue = new SQSManager();
 
 
 // // Send Message
-queue.sendMessage(["https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752"]).then((data) => {
+queue.batchPush(["https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752", "https://podcasts.apple.com/us/podcast/naked-on-cashmere/id1476868752"]).then((data) => {
   console.log("Pushed to Queue:", data);
 }).catch((err) => {
   console.log("Error", err);
