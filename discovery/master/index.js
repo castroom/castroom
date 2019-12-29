@@ -19,6 +19,9 @@ app.post("/push", (req, res) => {
     cache.get(url, (gerr) => {
       if (gerr) {
         // not found in cache - add it
+
+        // TODO: push the item to the queue here
+
         cache.put(url, "").then(() => {
           console.log(url, "was pushed");
         }).catch((perr) => {
