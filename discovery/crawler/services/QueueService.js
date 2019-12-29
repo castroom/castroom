@@ -6,6 +6,7 @@ import config from "../config";
 export default class QueueService {
   constructor() {
     this.consumer = null;
+    this.cacheServicePushUrl = config.cacheServicePushUrl;
 
     AWS.config.update({ region: config.region });
     AWS.config.credentials = new AWS.SharedIniFileCredentials({
@@ -41,10 +42,10 @@ export default class QueueService {
     }
   }
 
-  static batchPush(items) {
+  batchPush(items) {
     // sends the buffered messages to the master node
     console.log("Sending", items);
-    return axios.post("http://127.0.0.1:8080/push", {
+    return axios.post(this.cacheServicePushUrl, {
       urls: items,
     }).then((response) => {
       console.log("Response Code:", response.status);
