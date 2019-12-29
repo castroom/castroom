@@ -49,13 +49,12 @@ app.post("/push", (req, res) => {
 
   filterNewUrls(urls).then((newUrls) => {
     // add all the new urls to the queue for crawling
-    console.log("New Urls", newUrls);
-    // queue.batchPush(newUrls).then((response) => {
-    //   console.log("Pushed to queue:", newUrls);
-    //   console.log("Response:", response);
-    // }).catch((err) => {
-    //   console.log("Push Error", err);
-    // });
+    queue.batchPush(newUrls).then((response) => {
+      console.log("Pushed to queue:", newUrls);
+      console.log("Response:", response);
+    }).catch((err) => {
+      console.log("Push Error", err);
+    });
   });
 });
 

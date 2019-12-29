@@ -24,9 +24,8 @@ export default class QueueService {
       });
     }
 
-    const promises = [];
-
     // send the items in batches of 10 (limit of the SQS API)
+    const promises = [];
     while (entries.length) {
       const batch = entries.splice(0, 10);
       const params = {
