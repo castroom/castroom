@@ -42,11 +42,11 @@ export default class QueueService {
     }
   }
 
-  batchPush(items) {
+  batchPush(messages) {
     // sends the buffered messages to the master node
-    console.log("Sending", items);
+    console.log("Sending", messages);
     return axios.post(this.cacheServicePushUrl, {
-      urls: items,
+      urls: messages,
     }).then((response) => {
       console.log("Response Code:", response.status);
     });
