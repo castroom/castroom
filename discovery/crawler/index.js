@@ -3,7 +3,6 @@ import config from "./config";
 import getProvider from "./providers/ProviderSelectionUtil";
 import QueueService from "./services/QueueService";
 
-
 const queue = new QueueService();
 
 // when this value is 0, stop all polling since the queue is empty
