@@ -8,8 +8,9 @@ class ElasticsearchService {
     this.client = new Client(config.esClientConfig);
   }
 
-  addData(id, data) {
-    this.client.index({
+  async addData(id, data) {
+    console.log("Adding\n", id, data);
+    await this.client.index({
       index: "podcasts",
       id,
       body: data,
@@ -18,9 +19,11 @@ class ElasticsearchService {
 }
 
 var es = new ElasticsearchService();
-var id = "another";
+var id = "myprotein";
 var data = {
-  name: "Maharsh Patel",
+  name: "My Protein",
   feedURL: "https://feeds.simplecast.com/pDG8rerg",
 };
 es.addData(id, data);
+
+
