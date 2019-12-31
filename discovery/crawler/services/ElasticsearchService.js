@@ -3,7 +3,7 @@ const { Client } = require("@elastic/elasticsearch");
 // import config from "../config";
 const config = require("../config");
 
-class ElasticsearchService {
+export default class ElasticsearchService {
   constructor() {
     this.client = new Client(config.esClientConfig);
   }
@@ -17,13 +17,3 @@ class ElasticsearchService {
     });
   }
 }
-
-var es = new ElasticsearchService();
-var id = "myprotein";
-var data = {
-  name: "My Protein",
-  feedURL: "https://feeds.simplecast.com/pDG8rerg",
-};
-es.addData(id, data);
-
-

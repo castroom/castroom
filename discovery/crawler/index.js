@@ -2,8 +2,10 @@ import axios from "axios";
 import config from "./config";
 import getProvider from "./providers/ProviderSelectionUtil";
 import QueueService from "./services/QueueService";
+import ElasticsearchService from "./services/ElasticsearchService";
 
 const queue = new QueueService();
+const es = new ElasticsearchService();
 
 // when this value is 0, stop all polling since the queue is empty
 let pollTriesRemaining = config.numTriesPolling;
@@ -25,7 +27,12 @@ function messageHandler(url) {
     const isPodcastLink = id !== null; // as opposed to a page#, category link
     if (isPodcastLink) {
       provider.getMetadata(id).then((metadata) => {
-        console.log(metadata.data);
+        if (metadata.data && metadata.data.results) {
+          const result = metadata.data.results[0];
+          console.log(result);
+          // TODO: only save the fields from the config file
+          es.addData(result.trackId, result);
+        }
         // TODO: save it to ElasticSearch here
       }).catch((error) => {
         console.log("Error in lookup", error);
