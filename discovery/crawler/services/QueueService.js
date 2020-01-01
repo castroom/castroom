@@ -18,7 +18,7 @@ export default class QueueService {
     timeoutHandler, emptyQueueHandler) {
     const consumer = Consumer.create({
       queueUrl: config.queueUrl,
-      handleMessage: async (message) => messageHandler(message.Body),
+      handleMessage: (message) => messageHandler(message.Body),
       sqs: new AWS.SQS(),
       // rate limit is 20/minute - so pause for 3 seconds between each URL
       // split this between waiting and repolling frequency
