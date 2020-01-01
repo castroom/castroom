@@ -5,12 +5,10 @@ import bodyParser from "body-parser";
 import QueueService from "./QueueService";
 import config from "./config";
 
-
 const app = express();
 app.use(bodyParser.json());
 
 const queue = new QueueService();
-
 
 const cache = levelup(leveldown("./cache"));
 if (!config.restoreCache) {
