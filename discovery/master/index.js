@@ -3,19 +3,30 @@ import levelup from "levelup";
 import leveldown from "leveldown";
 import bodyParser from "body-parser";
 import QueueService from "./QueueService";
+import config from "./config";
 
-const cache = levelup(leveldown("./cache"));
-cache.clear();
 
 const app = express();
 app.use(bodyParser.json());
 
 const queue = new QueueService();
 
+
+const cache = levelup(leveldown("./cache"));
+if (!config.restoreCache) {
+  cache.clear();
+  // TODO: clear out the queue here too
+  cache.put(config.seedUrl, "").then(() => queue.batchPush([config.seedUrl]))
+    .then((response) => {
+      console.log(response);
+      console.log("Inserted Seed URL");
+    });
+}
+
 function filterNewUrls(urls) {
-  // find the urls that haven't been seen before
+  // return urls that don't exist in the cache
   const promises = [];
-  /* eslint-disable no-await-in-loop */
+
   for (let i = 0; i < urls.length; i += 1) {
     const url = urls[i];
     const p = new Promise((resolve) => {
