@@ -10,13 +10,26 @@ const es = new ElasticsearchService();
 // when this value is 0, stop all polling since the queue is empty
 let pollTriesRemaining = config.numTriesPolling;
 
+function pick(data, keys) {
+  // returns the same object with only the keys provided in the keys variable
+  const result = {};
+
+  keys.forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      result[key] = data[key];
+    }
+  });
+
+  return result;
+}
+
 function messageHandler(url) {
   console.log("Crawling", url);
   const provider = getProvider(url);
 
   axios.get(url).then((response) => {
     const crawlableUrls = provider.getCrawlableUrls(response.data, url);
-    console.log(crawlableUrls);
+    console.log(`Adding ${crawlableUrls.length} podcasts to crawl queue`);
 
     queue.batchPush(crawlableUrls).catch((error) => {
       // might want to stop crawling here in the future
@@ -28,12 +41,12 @@ function messageHandler(url) {
     if (isPodcastLink) {
       provider.getMetadata(id).then((metadata) => {
         if (metadata.data && metadata.data.results) {
+          // select and save a subset of the fields based on the config
           const result = metadata.data.results[0];
-          console.log(result);
-          // TODO: only save the fields from the config file
-          es.addData(result.trackId, result);
+          const podcastId = result.trackId;
+          const data = pick(result, config.fieldsToStore);
+          es.addData(podcastId, data);
         }
-        // TODO: save it to ElasticSearch here
       }).catch((error) => {
         console.log("Error in lookup", error);
         // add this URL back to the queue and start new server - shut this one down

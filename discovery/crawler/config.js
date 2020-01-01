@@ -8,6 +8,8 @@ const config = {
   esClientConfig: {
     node: "http://localhost:9200",
   },
+  // all the fields from the lookup result that we want to store in elasticsearch
+  fieldsToStore: ["artistName", "trackName", "trackCensoredName", "artistViewUrl", "trackViewUrl", "feedUrl", "artworkUrl100", "artworkUrl600", "country", "primaryGenreName", "trackExplicitness", "releaseDate", "genres", "trackCount"],
 };
 
 module.exports = config;
