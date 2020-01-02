@@ -4,7 +4,9 @@
   "description": "The master node that is in charge or coordinating the crawl jobs. It handles the crawl start, as well as the caching mechanism that acts as a middle-man between the worker nodes and Amazon SQS.",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
+    "clean": "rm -rf build && mkdir build",
+    "build": "babel ./src -d build",
+    "start": "npm run clean && npm run build && node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -17,8 +19,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
-    "@babel/node": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
