@@ -3,7 +3,11 @@ import config from "../config";
 
 export default class ElasticsearchService {
   constructor() {
-    this.client = new Client(config.esClientConfig);
+    this.client = new Client({
+      node: config.elasticSearchUrl,
+      Connection: config.Connection,
+      awsConfig: config.awsConfig,
+    });
   }
 
   async addData(id, data) {

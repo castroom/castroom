@@ -8,9 +8,7 @@ export default class QueueService {
     this.consumer = null;
     this.cacheServiceUrl = config.cacheServiceUrl;
 
-    // NOTE: the access tokens will be automatically picked up from environment
-    // variables or the credentials file
-    AWS.config.update({ region: config.region });
+    AWS.config.update(config.awsConfig);
   }
 
   startPolling(messageHandler, errorHandler, processingErrorHandler,
