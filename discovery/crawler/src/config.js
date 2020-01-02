@@ -2,7 +2,7 @@ import AWS from "aws-sdk";
 import { AmazonConnection } from "aws-elasticsearch-connector";
 
 const config = {
-  queueUrl: "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue",
+  queueUrl: process.env.SQS_URL || "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue",
   apiVersion: "2012-11-05",
   numTriesPolling: 3,
   cacheServiceUrl: process.env.MASTER_NODE_URL || "http://127.0.0.1:8080",
