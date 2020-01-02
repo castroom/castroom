@@ -5,11 +5,9 @@ export default class QueueService {
   constructor() {
     this.queueUrl = config.queueUrl;
 
+    // NOTE: the access tokens will be automatically picked up from environment
+    // variables or the credentials file
     AWS.config.update({ region: config.region });
-    AWS.config.credentials = new AWS.SharedIniFileCredentials({
-      profile: config.credentialsProfile,
-    });
-
     this.sqs = new AWS.SQS({ apiVersion: config.apiVersion });
   }
 

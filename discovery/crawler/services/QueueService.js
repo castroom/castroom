@@ -6,12 +6,11 @@ import config from "../config";
 export default class QueueService {
   constructor() {
     this.consumer = null;
-    this.cacheServicePushUrl = config.cacheServicePushUrl;
+    this.cacheServiceUrl = config.cacheServiceUrl;
 
+    // NOTE: the access tokens will be automatically picked up from environment
+    // variables or the credentials file
     AWS.config.update({ region: config.region });
-    AWS.config.credentials = new AWS.SharedIniFileCredentials({
-      profile: config.credentialsProfile,
-    });
   }
 
   startPolling(messageHandler, errorHandler, processingErrorHandler,
@@ -44,7 +43,7 @@ export default class QueueService {
 
   batchPush(messages) {
     // sends the buffered messages to the master node
-    return axios.post(this.cacheServicePushUrl, {
+    return axios.post(`${this.cacheServiceUrl}/push`, {
       urls: messages,
     }).then((response) => {
       console.log("Response Code:", response.status);
