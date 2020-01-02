@@ -13,7 +13,6 @@ let pollTriesRemaining = config.numTriesPolling;
 function pick(data, keys) {
   // returns the same object with only the keys provided in the keys variable
   const result = {};
-
   keys.forEach((key) => {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       result[key] = data[key];
@@ -29,28 +28,30 @@ async function messageHandler(url) {
   console.log("Crawling", url);
   const provider = getProvider(url);
 
-  await axios.get(url).then(async (response) => {
-    const crawlableUrls = provider.getCrawlableUrls(response.data, url);
-    console.log(`Adding ${crawlableUrls.length} podcasts to crawl queue`);
-
-    await queue.batchPush(crawlableUrls);
-
-    const id = provider.getPodcastId(url);
-    const isPodcastLink = id !== null; // as opposed to a page#, category link
-    if (isPodcastLink) {
-      const metadata = await provider.getMetadata(id);
-      if (metadata.data && metadata.data.results) {
-        // select and save a subset of the fields based on the config
-        const result = metadata.data.results[0];
-        const podcastId = result.trackId;
-        const data = pick(result, config.fieldsToStore);
-        await es.addData(podcastId, data);
-      }
+  const id = provider.getPodcastId(url);
+  const isPodcastLink = id !== null; // as opposed to a page#, category link
+  if (isPodcastLink) {
+    // no need to crawl the contents of this link (we could in the future)
+    const metadata = await provider.getMetadata(id);
+    if (metadata.data && metadata.data.results) {
+      // select and save a subset of the fields based on the config
+      const result = metadata.data.results[0];
+      const podcastId = result.trackId;
+      const data = pick(result, config.fieldsToStore);
+      await es.addData(podcastId, data);
     }
-  });
+  } else {
+    // crawl this page
+    await axios.get(url).then(async (response) => {
+      const crawlableUrls = provider.getCrawlableUrls(response.data, url);
+      console.log(`Adding ${crawlableUrls.length} podcasts to crawl queue`);
+
+      await queue.batchPush(crawlableUrls);
+    });
+  }
 
   // if there was an empty queue previously, this value would have been decremented
-  // we want to reset this to measure consecutive empty queue tries
+  // we want to reset this to correctly measure "consecutive" empty queue tries
   pollTriesRemaining = config.numTriesPolling;
 }
 
