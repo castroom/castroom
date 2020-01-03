@@ -18,6 +18,8 @@ if (!config.restoreCache) {
     .then((response) => {
       console.log(response);
       console.log("Inserted Seed URL");
+    }).catch((err) => {
+      console.log("Error", err);
     });
 }
 
@@ -60,7 +62,7 @@ app.post("/push", (req, res) => {
     // add all the new urls to the queue for crawling
     queue.batchPush(newUrls).then((response) => {
       console.log("Pushed to queue:", newUrls);
-      console.log("Response:", response);
+      console.log("Response:", response, "\n");
     }).catch((err) => {
       console.log("Push Error", err);
     });

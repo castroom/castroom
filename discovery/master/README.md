@@ -12,6 +12,6 @@ npm start
 
 ### Local - Docker
 ```
-docker build -t gcr.io/castroom/discovery-master:v1 .
+docker build --no-cache -t gcr.io/castroom/discovery-master:v1 .
 docker run --rm -p 8080:8080 --env-file prod.env gcr.io/castroom/discovery-master:v1
 ```

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-master-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discovery-master
+  template:
+    metadata:
+      labels:
+        app: discovery-master
+    spec:
+      containers:
+      - name: discovery-master
+        # Replace $GCLOUD_PROJECT with your project ID
+        image: gcr.io/castroom/discovery-master:v2
+        imagePullPolicy: "Always"
+        # This app listens on port 8080 for web traffic by default.
+        ports:
+        - containerPort: 8080
+        env:
+          - name: PORT
+            value: "8080"
+          - name: AWS_DISCOVERY_MASTER_ACCESS_KEY_ID
+            value: "AKIAXHBB3XTHAX6CUTMJ"
+          - name: AWS_DISCOVERY_MASTER_SECRET_ACCESS_KEY
+            value: "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"
