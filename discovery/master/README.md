@@ -104,7 +104,7 @@ kubectl get nodes --output wide
 // if the node port changed - add the new firewall rule
 gcloud compute firewall-rules create discovery-master-port --allow tcp:[NODE_PORT]
 
-// connect using the new External IP
+// connect using the new External IP:Node Port
 ```
 
 ### Updating the image

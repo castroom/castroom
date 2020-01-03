@@ -14,10 +14,8 @@ spec:
     spec:
       containers:
       - name: discovery-master
-        # Replace $GCLOUD_PROJECT with your project ID
         image: gcr.io/castroom/discovery-master:v2
         imagePullPolicy: "Always"
-        # This app listens on port 8080 for web traffic by default.
         ports:
         - containerPort: 8080
         env:
