@@ -15,10 +15,10 @@ export default class iTunesProvider {
   }
 
   static getPodcastId(url) {
-    let id = url.match(/\/id\d*/g)[0];
+    let id = url.match(/\/id\d*/g);
 
-    if (id.length > 8) {
-      id = id.replace("/id", "");
+    if (id && id[0].length > 8) {
+      id = id[0].replace("/id", "");
       return id;
     }
     return null;
