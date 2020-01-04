@@ -22,7 +22,8 @@ class ElasticsearchService {
   search() {
     return this.client.search({
       index: "podcasts",
-      q: "trackName:Freakonomics",
+      q: "trackName:Wake Up Miami Morning Show",
+      size: 1,
     });
   }
 }
