@@ -23,17 +23,29 @@ if (!config.restoreCache) {
     });
 }
 
+function getPodcastId(url) {
+  let id = url.match(/\/id\d*/g);
+
+  if (id && id[0].length > 8) {
+    id = id[0].replace("/id", "");
+    return id;
+  }
+  return null;
+}
+
 function filterNewUrls(urls) {
   // return urls that don't exist in the cache
   const promises = [];
 
   for (let i = 0; i < urls.length; i += 1) {
     const url = urls[i];
+    const id = getPodcastId(url) || url;
+
     const p = new Promise((resolve) => {
-      cache.get(url, (gerr) => {
+      cache.get(id, (gerr) => {
         if (gerr) {
           // doesn't exist in cache - add it
-          cache.put(url, "").then(() => {
+          cache.put(id, "").then(() => {
             resolve(url);
           });
         } else {
