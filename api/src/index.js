@@ -5,8 +5,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  console.log(req);
-  res.send({ test: "another" });
+  res.send({ test: "testing" });
 });
 
 const PORT = 8080;

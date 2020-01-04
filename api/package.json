@@ -7,6 +7,7 @@
     "clean": "rm -rf build && mkdir build",
     "build": "babel ./src -d build",
     "start": "npm run clean && npm run build && node build/index.js",
+    "dev": "babel-watch src/index.js",
     "serve": "node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +22,7 @@
     "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
+    "babel-watch": "^7.0.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1"
