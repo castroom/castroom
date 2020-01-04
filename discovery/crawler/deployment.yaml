@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-crawler-deployment
+spec:
+  replicas: 12
+  selector:
+    matchLabels:
+      app: discovery-crawler
+  template:
+    metadata:
+      labels:
+        app: discovery-crawler
+    spec:
+      containers:
+      - name: discovery-crawler
+        image: gcr.io/castroom/discovery-crawler:v1
+        imagePullPolicy: "Always"
+        env:
+          - name: AWS_DISCOVERY_CRAWLER_ACCESS_KEY_ID
+            value: "AKIAXHBB3XTHABT2PYWC"
+          - name: AWS_DISCOVERY_CRAWLER_SECRET_ACCESS_KEY
+            value: "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"
+          - name: SQS_URL
+            value: "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue"
+          - name: MASTER_NODE_URL
+            value: "http://34.69.29.77:31476"
+          - name: ELASTICSEARCH_URL
+            value: "https://search-castroom-evemryzsuzqga6r6i5muonzf3e.us-east-2.es.amazonaws.com"
+        
