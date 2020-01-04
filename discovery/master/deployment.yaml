@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: discovery-master
-        image: gcr.io/castroom/discovery-master:v2
+        image: gcr.io/castroom/discovery-master:v3
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
