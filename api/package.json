@@ -1,0 +1,28 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "The Public facing API server which will talk to both the front-end and the database",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf build && mkdir build",
+    "build": "babel ./src -d build",
+    "start": "npm run clean && npm run build && node build/index.js",
+    "serve": "node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.596.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1"
+  }
+}
