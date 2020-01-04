@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: discovery-crawler-deployment
 spec:
-  replicas: 12
+  replicas: 1
   selector:
     matchLabels:
       app: discovery-crawler
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: discovery-crawler
-        image: gcr.io/castroom/discovery-crawler:v2
+        image: gcr.io/castroom/discovery-crawler:v4
         imagePullPolicy: "Always"
         env:
           - name: AWS_DISCOVERY_CRAWLER_ACCESS_KEY_ID

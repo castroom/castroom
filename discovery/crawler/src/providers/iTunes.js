@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class iTunesProvider {
   static getCrawlableUrls(data, currentUrl) {
-    let clickableUrls = data.match(/https:\/\/podcasts.apple.com\/\w{2}\/((genre\/podcasts-.+?\/id\d{4}(\?letter=.(&amp;page=\d\d?#page)?)?)|podcast\/(((\d+|\w+)-){0,100}(\d+|\w+)\/id\d{0,12})(?="))/g);
+    let clickableUrls = data.match(/https:\/\/podcasts.apple.com\/\w{2}\/((genre\/[^/]+?-[^/]+?\/id\d{4}(\?letter=.(&amp;page=\d\d?#page)?)?)|podcast\/(([^/]+?-){0,100}([^/]+?)\/id\d{0,12})(?="))/g);
 
     if (clickableUrls && clickableUrls.length >= 0) {
       // prevent the link back to this page from being processed again
