@@ -81,7 +81,7 @@ kubectl get pods
 kubectl logs <POD_NAME> 
 ```
 
-### Turning off (without shutting down)
+### Turning off
 ```
 kubectl scale --replicas=0 deployment discovery-master-deployment
 
