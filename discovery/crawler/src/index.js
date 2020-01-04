@@ -36,9 +36,14 @@ async function messageHandler(url) {
     if (metadata.data && metadata.data.results) {
       // select and save a subset of the fields based on the config
       const result = metadata.data.results[0];
-      const podcastId = result.trackId;
-      const data = pick(result, config.fieldsToStore);
-      await es.addData(podcastId, data);
+      // sometimes the result is empty - so in this case we just discard this URL since
+      // we have no way of getting the metadata for it without iTunes providing it
+      // safe exit from this function will delete the url from the queue
+      if (result) {
+        const podcastId = result.trackId;
+        const data = pick(result, config.fieldsToStore);
+        await es.addData(podcastId, data);
+      }
     }
   } else {
     // crawl this page

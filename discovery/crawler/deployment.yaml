@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: discovery-crawler
-        image: gcr.io/castroom/discovery-crawler:v1
+        image: gcr.io/castroom/discovery-crawler:v2
         imagePullPolicy: "Always"
         env:
           - name: AWS_DISCOVERY_CRAWLER_ACCESS_KEY_ID
