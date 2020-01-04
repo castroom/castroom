@@ -40,6 +40,7 @@ docker push gcr.io/castroom/discovery-crawler:v1
 
 4) Deploy the image
 ```
+// make sure to update all the flags before deploying
 kubectl apply -f deployment.yaml
 ```
 
