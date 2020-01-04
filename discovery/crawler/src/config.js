@@ -1,5 +1,5 @@
-import AWS from "aws-sdk";
-import { AmazonConnection } from "aws-elasticsearch-connector";
+const AWS = require("aws-sdk");
+const { AmazonConnection } = require("aws-elasticsearch-connector");
 
 const config = {
   queueUrl: process.env.SQS_URL || "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue",
@@ -13,7 +13,7 @@ const config = {
     ),
     region: "us-east-2",
   }),
-  elasticSearchUrl: process.env.ELASTICSEARCH_URL || "http://localhost:9200",
+  elasticSearchUrl: "https://search-castroom-evemryzsuzqga6r6i5muonzf3e.us-east-2.es.amazonaws.com",
   Connection: AmazonConnection,
   // all the fields from the lookup result that we want to store in elasticsearch
   fieldsToStore: ["artistName", "trackName", "trackCensoredName", "artistViewUrl", "trackViewUrl", "feedUrl", "artworkUrl100", "artworkUrl600", "country", "primaryGenreName", "trackExplicitness", "releaseDate", "genres", "trackCount"],

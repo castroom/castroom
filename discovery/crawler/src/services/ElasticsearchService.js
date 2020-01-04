@@ -1,7 +1,7 @@
-import { Client } from "@elastic/elasticsearch";
-import config from "../config";
+const { Client } = require("@elastic/elasticsearch");
+const config = require("../config");
 
-export default class ElasticsearchService {
+class ElasticsearchService {
   constructor() {
     this.client = new Client({
       node: config.elasticSearchUrl,
@@ -18,4 +18,14 @@ export default class ElasticsearchService {
       body: data,
     });
   }
+
+  search() {
+    return this.client.search({
+      index: "podcasts",
+      q: "trackName:Freakonomics",
+    });
+  }
 }
+
+const es = new ElasticsearchService();
+es.search().then((response) => console.log(response.body.hits.hits[0]));
