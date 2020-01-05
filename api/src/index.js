@@ -1,7 +1,20 @@
 import express from "express";
 import bodyParser from "body-parser";
 import helmet from "helmet";
+import cors from "cors";
 import ElasticsearchService from "./services/ElasticsearchService";
+
+const whitelist = ["https://castroom.co", "http://localhost:3000"];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+      console.log(null, true);
+    } else {
+      console.log("Not allowed by CORS");
+    }
+  },
+};
 
 const es = new ElasticsearchService();
 
@@ -9,7 +22,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(helmet()); // sets security related HTTP response headers
 
-app.get("/", async (req, res) => {
+app.get("/", cors(corsOptions), async (req, res) => {
   if (req && req.query.q) {
     es.search("trackName", req.query.q, 5).then((response) => {
       console.log(response);

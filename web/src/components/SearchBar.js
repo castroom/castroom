@@ -3,10 +3,30 @@ import "../styles/SearchBar.scss";
 import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Autosuggest from "react-autosuggest";
+import axios from "axios";
+
+
+function makeRequestCreator() {
+  var call;
+  return function(url) {
+      if (call) {
+          call.cancel();
+      }
+      call = axios.CancelToken.source();
+      return axios.get(url, { cancelToken: call.token }).then((response) => {
+          return response.data.hits
+      }).catch(function(thrown) {
+          if (axios.isCancel(thrown)) {
+              console.log('First request canceled', thrown.message);
+          } else {
+              // handle error
+          }
+      });
+  }
+}
+var get = makeRequestCreator();
 
 const podcasts = [
   {
@@ -36,7 +56,7 @@ const getSuggestionValue = suggestion => suggestion.name;
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
   <div className="suggestion">
-    {suggestion.name}
+    {suggestion._source.trackName}
   </div>
 );
 
@@ -63,10 +83,20 @@ class SearchBar extends Component {
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value)
-    });
+  onSuggestionsFetchRequested = async ({ value }) => {
+    // const result = await axios.get(`https://api.castroom.co/?q=${value}`);
+    // console.log(result.data.hits);
+    const res = get(`https://api.castroom.co/?q=${value}`);
+    console.log(res.then(response => {
+      console.log(response);
+      this.setState({
+        suggestions: response || []
+      });
+    }));
+
+    // this.setState({
+    //   suggestions: []
+    // });
   };
 
   // Autosuggest will call this function every time you need to clear suggestions.
