@@ -11,12 +11,11 @@ export default class ElasticsearchService {
     });
   }
 
-  async addData(id, data) {
-    console.log(`Adding ${id} to Elasticsearch`);
-    await this.client.index({
+  search(field, value, resultCount) {
+    return this.client.search({
       index: "podcasts",
-      id,
-      body: data,
-    });
+      q: `${field}:${value}`,
+      size: resultCount,
+    }).then((response) => response.body.hits);
   }
 }

@@ -24,6 +24,5 @@ COPY ./build ./
 # Remove dev packages
 RUN npm prune --production
 
-
 # Run the web service from /build
 CMD [ "npm", "run", "serve" ]
