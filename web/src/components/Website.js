@@ -1,12 +1,22 @@
-import React from "react";
-import "../styles/Website.css";
+import React, { Component } from "react";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Header from "./Header";
+import "../styles/Website.scss";
 
-function Website() {
-  return (
-    <div className="Website">
-      Testing
-    </div>
-  );
+class Website extends Component {
+  render() {
+    return (
+      <Container className="website">
+        <Row>
+          <Header/>
+        </Row>
+        {/* <Row>
+          Message
+        </Row> */}
+      </Container>
+    )
+  }
 }
 
 export default Website;
