@@ -8,53 +8,33 @@ import Autosuggest from "react-autosuggest";
 import axios from "axios";
 
 
-function makeRequestCreator() {
+function singleRequestCreator() {
   var call;
   return function(url) {
-      if (call) {
-          call.cancel();
+    if (call) {
+        call.cancel();
+    }
+    call = axios.CancelToken.source();
+    return axios.get(url, { cancelToken: call.token }).then((response) => {
+      return response.data.hits
+    }).catch(function(thrown) {
+      if (axios.isCancel(thrown)) {
+          console.log('First request canceled', thrown.message);
+      } else {
+          // handle error
       }
-      call = axios.CancelToken.source();
-      return axios.get(url, { cancelToken: call.token }).then((response) => {
-          return response.data.hits
-      }).catch(function(thrown) {
-          if (axios.isCancel(thrown)) {
-              console.log('First request canceled', thrown.message);
-          } else {
-              // handle error
-          }
-      });
+    });
   }
 }
-var get = makeRequestCreator();
+var get = singleRequestCreator();
 
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div className="suggestion">
-    <span className="suggestionName">{suggestion._source.trackName}</span><br/>
-    <span className="suggestionArtist">{suggestion._source.artistName}</span>
-    <span className="suggestionNumEpisodes">
-      {suggestion._source.trackCount} Episode{suggestion._source.trackCount > 1 ? "s" : ""}
-    </span>
-  </div>
-);
 
 class SearchBar extends Component {
   constructor() {
     super();
 
-    // Autosuggest is a controlled component.
-    // This means that you need to provide an input value
-    // and an onChange handler that updates this value (see below).
-    // Suggestions also need to be provided to the Autosuggest,
-    // and they are initially empty because the Autosuggest is closed.
     this.state = {
-      value: '',
+      value: "",
       suggestions: []
     };
   }
@@ -65,14 +45,14 @@ class SearchBar extends Component {
     });
   };
 
+  // When suggestion is clicked, replace the input field with the track name
+  getSuggestionValue = suggestion => suggestion._source.trackName;
+
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = async ({ value }) => {
-    // const result = await axios.get(`https://api.castroom.co/?q=${value}`);
-    // console.log(result.data.hits);
     const res = get(`https://api.castroom.co/?q=${value}`);
     console.log(res.then(response => {
-      console.log(response);
       this.setState({
         suggestions: response || []
       });
@@ -86,10 +66,23 @@ class SearchBar extends Component {
     });
   };
 
+  onSuggestionSelected = (event, { suggestion, suggestionValue }) => {
+    console.log(suggestion, suggestionValue);
+  }
+
+  renderSuggestion = suggestion => (
+    <div className="suggestion">
+      <span className="suggestionName">{suggestion._source.trackName}</span><br/>
+      <span className="suggestionArtist">{suggestion._source.artistName}</span>
+      <span className="suggestionNumEpisodes">
+        {suggestion._source.trackCount} Episode{suggestion._source.trackCount > 1 ? "s" : ""}
+      </span>
+    </div>
+  );
+
   render() {
     const { value, suggestions } = this.state;
 
-    // Autosuggest will pass through all these props to the input.
     const inputProps = {
       placeholder: "ex: Freakonomics",
       value,
@@ -101,12 +94,14 @@ class SearchBar extends Component {
         width: "100%",
         borderRadius: 7,
         height: 70,
-        // textAlign: "center"
         padding: 20,
         paddingLeft: 30,
         border: 0,
         outlineWidth: 0,
         backgroundColor: "pink"
+      },
+      suggestionHighlighted: {
+        color: "blue"
       },
       suggestionsContainerOpen: {
         width: "100%",
@@ -117,13 +112,8 @@ class SearchBar extends Component {
         marginTop: 5,
         paddingBottom: 10
       },
-      suggestionFirst: {
-        color: "blue"
-      },
       suggestion: {
-        // padding: 10,
         margin: 30,
-        // padding: 10,
       }
     };
 
@@ -134,8 +124,9 @@ class SearchBar extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
+          onSuggestionSelected={this.onSuggestionSelected}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
           inputProps={inputProps}
         />
       </Container>

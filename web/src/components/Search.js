@@ -17,9 +17,11 @@ class Search extends Component {
           </Col>
         </Row>
         <Row>
-          <Col sm={12}>
+          <Col sm={2}></Col>
+          <Col sm={8}>
             <SearchBar/>
           </Col>
+          <Col sm={2}></Col>
         </Row>
       </Container>
     );
