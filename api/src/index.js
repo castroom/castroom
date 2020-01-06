@@ -4,7 +4,7 @@ import helmet from "helmet";
 import cors from "cors";
 import ElasticsearchService from "./services/ElasticsearchService";
 
-const whitelist = ["https://castroom.co", "http://localhost:3000"];
+const whitelist = ["https://castroom.co", "http://localhost:3000", "https://castroom.web.app", "https://castroom.firebaseapp.com"];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {
