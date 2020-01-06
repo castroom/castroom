@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import "../styles/SearchBar.scss";
 import Container from "react-bootstrap/Container";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from "react-bootstrap/Button";
 import Autosuggest from "react-autosuggest";
 import axios from "axios";
 
@@ -51,7 +48,7 @@ class SearchBar extends Component {
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = async ({ value }) => {
-    const res = get(`https://api.castroom.co/?q=${value}`);
+    const res = get(`http://127.0.0.1:8080/?q=${value}`);
     console.log(res.then(response => {
       this.setState({
         suggestions: response || []

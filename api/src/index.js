@@ -9,7 +9,6 @@ const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
-      console.log(null, true);
     } else {
       console.log("Not allowed by CORS");
     }
@@ -25,7 +24,7 @@ app.use(helmet()); // sets security related HTTP response headers
 app.get("/", cors(corsOptions), async (req, res) => {
   if (req && req.query.q) {
     es.search("trackName", req.query.q, 5).then((response) => {
-      console.log(response);
+      console.log(req.query.q);
       res.send(response);
     }).catch((err) => {
       console.log(err);

@@ -14,7 +14,13 @@ export default class ElasticsearchService {
   search(field, value, resultCount) {
     return this.client.search({
       index: "podcasts",
-      q: `${field}:${value}`,
+      body: {
+        query: {
+          match: {
+            trackName: value,
+          },
+        },
+      },
       size: resultCount,
     }).then((response) => response.body.hits);
   }
