@@ -1,17 +1,26 @@
 .searchBar {
     background-color: green;
-    ul,li { list-style-type: none;
+    
+    ul,li {
+        list-style-type: none;
         list-style-position:inside;
         margin:0;
-        padding:0; }
-    // .listBox{
-    //     color: blue
-    // }
-    // .suggestion {
-    //     // margin-left: -20px;
-    //     color: blue
-    // }
-    // .searchButton {
-    //     background-color: pink;
-    // }
+        padding:0; 
+    }
+
+    .suggestionArtist {
+        position: absolute;
+        font-size: 14px;
+        line-height: 0.5px !important;
+        float: right;
+    }
+
+    .suggestionNumEpisodes {
+        top: 20px;
+        float: right;
+        font-size: 12px;
+        line-height: 0px !important;
+        margin-top: -10px;
+    }
+    
 }

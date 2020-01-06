@@ -28,26 +28,6 @@ function makeRequestCreator() {
 }
 var get = makeRequestCreator();
 
-const podcasts = [
-  {
-    name: 'freakonomics',
-    year: 1972
-  },
-  {
-    name: 'friends%',
-    year: 2012
-  },
-];
-// Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : podcasts.filter(lang =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
-
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
 // input value for every given suggestion.
@@ -56,7 +36,11 @@ const getSuggestionValue = suggestion => suggestion.name;
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
   <div className="suggestion">
-    {suggestion._source.trackName}
+    <span className="suggestionName">{suggestion._source.trackName}</span><br/>
+    <span className="suggestionArtist">{suggestion._source.artistName}</span>
+    <span className="suggestionNumEpisodes">
+      {suggestion._source.trackCount} Episode{suggestion._source.trackCount > 1 ? "s" : ""}
+    </span>
   </div>
 );
 
@@ -93,10 +77,6 @@ class SearchBar extends Component {
         suggestions: response || []
       });
     }));
-
-    // this.setState({
-    //   suggestions: []
-    // });
   };
 
   // Autosuggest will call this function every time you need to clear suggestions.
@@ -111,7 +91,7 @@ class SearchBar extends Component {
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Type a programming language',
+      placeholder: "ex: Freakonomics",
       value,
       onChange: this.onChange
     };
@@ -119,10 +99,11 @@ class SearchBar extends Component {
     const theme = {
       input: {
         width: "100%",
-        borderRadius: "30px",
-        height: "50px",
+        borderRadius: 7,
+        height: 70,
         // textAlign: "center"
         padding: 20,
+        paddingLeft: 30,
         border: 0,
         outlineWidth: 0,
         backgroundColor: "pink"
@@ -131,15 +112,18 @@ class SearchBar extends Component {
         width: "100%",
         border: "1px solid #aaa",
         backgroundColor: "#fff",
-        borderRadius: 30,
+        borderRadius: 7,
         zIndex: 2,
-        marginTop: 5
+        marginTop: 5,
+        paddingBottom: 10
       },
       suggestionFirst: {
         color: "blue"
       },
       suggestion: {
-        padding: 10,
+        // padding: 10,
+        margin: 30,
+        // padding: 10,
       }
     };
 
