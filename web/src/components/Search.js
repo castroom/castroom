@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SearchBar from "./SearchBar";
 import podcastFeedParser from "podcast-feed-parser";
+import logo from "../logo.png";
 
 class Search extends Component {
 
@@ -14,7 +15,6 @@ class Search extends Component {
   
   async handleSearchCompletion(data) {
     console.log(data);
-    // var d = await this.parseFeed(data.feedUrl);
     var d = await this.parseFeed(`https://cors-anywhere.herokuapp.com/${data.feedUrl}`);
     console.log(d);
     console.log("done");
@@ -27,7 +27,7 @@ class Search extends Component {
         <Row>
           <Col sm={12}>
             <div className="searchMessage">
-              Search through X podcasts
+              <img src={logo} width="340px" alt="logo"></img>
             </div>
           </Col>
         </Row>
