@@ -7,6 +7,20 @@ import SearchResults from "./SearchResults";
 import "../styles/Website.scss";
 
 class Website extends Component {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     podcastData: {}
+  //   }
+  // }
+  
+  // handleSearchCompletion(data) {
+  //   console.log(data);
+  //   this.setState({
+  //     podcastData: data
+  //   })
+  // }
+
   render() {
     return (
       <Container className="website">
@@ -14,7 +28,7 @@ class Website extends Component {
           <Header/>
         </Row>
         <Row>
-          <Search/>
+          <Search />
         </Row>
         <Row>
           <SearchResults/>

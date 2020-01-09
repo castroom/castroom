@@ -27,8 +27,8 @@ var get = singleRequestCreator();
 
 
 class SearchBar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       value: "",
@@ -49,11 +49,11 @@ class SearchBar extends Component {
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = async ({ value }) => {
     const res = get(`https://api.castroom.co/?q=${value}`);
-    console.log(res.then(response => {
+    res.then(response => {
       this.setState({
         suggestions: response || []
       });
-    }));
+    });
   };
 
   // Autosuggest will call this function every time you need to clear suggestions.
@@ -63,8 +63,8 @@ class SearchBar extends Component {
     });
   };
 
-  onSuggestionSelected = (event, { suggestion, suggestionValue }) => {
-    console.log(suggestion, suggestionValue);
+  onSuggestionSelected = (event, { suggestion }) => {
+    this.props.onEnter(suggestion._source);
   }
 
   renderSuggestion = suggestion => (
