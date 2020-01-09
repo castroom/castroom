@@ -18,7 +18,7 @@ function singleRequestCreator() {
       if (axios.isCancel(thrown)) {
           console.log('First request canceled', thrown.message);
       } else {
-          // handle error
+          console.log("Error: ", thrown.message);
       }
     });
   }
@@ -95,15 +95,15 @@ class SearchBar extends Component {
         paddingLeft: 30,
         border: 0,
         outlineWidth: 0,
-        backgroundColor: "pink"
+        backgroundColor: "#f3f3f3"
       },
       suggestionHighlighted: {
         color: "blue"
       },
       suggestionsContainerOpen: {
         width: "100%",
-        border: "1px solid #aaa",
-        backgroundColor: "#fff",
+        border: "1px solid #f8f8f8",
+        backgroundColor: "#f8f8f8",
         borderRadius: 7,
         zIndex: 2,
         marginTop: 5,
@@ -111,6 +111,7 @@ class SearchBar extends Component {
       },
       suggestion: {
         margin: 30,
+        fontWeight: 600,
       }
     };
 
