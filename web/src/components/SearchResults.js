@@ -5,7 +5,23 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 class SearchResults extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: null
+    };
+  }
   
+  componentDidUpdate(prevProps) {
+    if (this.props.title !== prevProps.title) {
+      this.setState({
+        title: this.props.title
+      })
+    }
+  }
+
+  // TODO: need to re-render the component when the props change
   renderArtwork = () => {
     return (
       <div>
@@ -17,7 +33,7 @@ class SearchResults extends Component {
   renderSummarySection = () => {
     return (
       <div>
-        Summary
+        {this.props.title}
       </div>
     )
   }

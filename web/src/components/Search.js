@@ -4,39 +4,62 @@ import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SearchBar from "./SearchBar";
-import podcastFeedParser from "podcast-feed-parser";
+import SearchResults from "./SearchResults";
+// import podcastFeedParser from "podcast-feed-parser";
+import parsePodcast from "node-podcast-parser";
+import axios from "axios";
 import logo from "../logo.png";
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
 
-  async parseFeed(feedUrl) {
-    return podcastFeedParser.getPodcastFromURL(feedUrl);
+    this.state = {
+      title: null
+    }
   }
-  
+
   async handleSearchCompletion(data) {
-    console.log(data);
-    var d = await this.parseFeed(`https://cors-anywhere.herokuapp.com/${data.feedUrl}`);
-    console.log(d);
-    console.log("done");
-    // parse the feed url and send the data back in a structured format
+    this.setState({
+      title: data.trackName,
+    });
+
+    axios.get(`https://cors-anywhere.herokuapp.com/${data.feedUrl}`).then(response => {
+      console.log(response.data)
+      parsePodcast(response.data, (err, data) => {
+        if (err) {
+            console.error("Parsing error", err);
+            return;
+        }
+        
+        console.log("Data", data);
+      });
+    });
   }
 
   render() {
     return (
       <Container className="search" fluid={true}>
+        <div className="searchBarWrapper">
+          <Row>
+            <Col sm={12}>
+              <div className="searchMessage">
+                <img src={logo} width="340px" alt="logo"></img>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={2}></Col>
+            <Col sm={8}>
+              <SearchBar onEnter={(data) => this.handleSearchCompletion(data)}/>
+            </Col>
+            <Col sm={2}></Col>
+          </Row>
+        </div>
         <Row>
           <Col sm={12}>
-            <div className="searchMessage">
-              <img src={logo} width="340px" alt="logo"></img>
-            </div>
+            <SearchResults title={this.state.title}/>
           </Col>
-        </Row>
-        <Row>
-          <Col sm={2}></Col>
-          <Col sm={8}>
-            <SearchBar onEnter={(data) => this.handleSearchCompletion(data)}/>
-          </Col>
-          <Col sm={2}></Col>
         </Row>
       </Container>
     );

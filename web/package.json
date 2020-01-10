@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.2.1",
+    "node-podcast-parser": "^2.3.0",
     "node-sass": "^4.11.0",
     "podcast-feed-parser": "^1.0.1",
     "react": "^16.12.0",

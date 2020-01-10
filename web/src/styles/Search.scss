@@ -3,11 +3,15 @@
     margin-top: 130px;
     margin-bottom: 70px;
     font-weight: 700;
-    font-size: 22px;
     letter-spacing: -0.04em;
     
-    min-height: 300px;
-    height: 50vh;
+    // min-height: 300px;
+    // height: 50vh;
+
+    .searchBarWrapper {
+        height: 500px;
+        background-color: pink;
+    }
 
     .searchMessage{
         text-align: center;
