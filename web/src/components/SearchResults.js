@@ -74,7 +74,7 @@ class SearchResults extends Component {
             episode.enclosure.url,
             '_blank'
           );
-        }}>&#9654; {episodeLength} mins</button>
+        }}>&#9654; {episodeLength} min</button>
       </div>
     )
   }
