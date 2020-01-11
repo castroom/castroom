@@ -14,7 +14,16 @@ class SearchResults extends Component {
   renderArtwork = () => {
     if (this.props.podcast.artwork) {
       return (
-        <img src={this.props.podcast.artwork} className="artwork" width="100%" alt="Artwork"></img>
+        <div>
+          <img src={this.props.podcast.artwork} className="artwork" width="100%" alt="Artwork"></img><br/>
+          <button className="viewOnItunesButton" onClick={() => {
+          // open the iTunes link in a new tab
+          window.open(
+            this.props.podcast.iTunesLink,
+            '_blank'
+          );
+        }}>View on iTunes</button>
+        </div>
       )
     }
     return null;

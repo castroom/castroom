@@ -19,7 +19,8 @@ class Search extends Component {
       description: null,
       artwork: null,
       artist: null,
-      episodes: []
+      episodes: [],
+      iTunesLink: null,
     }
   }
 
@@ -37,7 +38,8 @@ class Search extends Component {
           description: response.description.long,
           artwork: data.artworkUrl600,
           artist: data.artistName,
-          episodes: response.episodes
+          episodes: response.episodes,
+          iTunesLink: data.trackViewUrl
         })
         
         console.log("Data", response);
