@@ -54,7 +54,7 @@ class Search extends Component {
           <Row>
             <Col md={12}>
               <div className="searchHeader">
-                <img src={logo} width="340px" alt="logo"></img>
+                <img responsive src={logo} width="400px" alt="logo"></img>
               </div>
             </Col>
           </Row>
