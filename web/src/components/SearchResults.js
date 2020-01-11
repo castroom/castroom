@@ -8,7 +8,7 @@ import scrollToComponent from 'react-scroll-to-component';
 class SearchResults extends Component {
 
   componentDidUpdate() {
-    scrollToComponent(this.summary, { offset: 0, align: "middle", duration: 250, ease:"inSine"});
+    scrollToComponent(this.summary, { offset: 0, align: "top", duration: 250, ease:"inSine"});
   }
 
   renderArtwork = () => {
@@ -42,8 +42,11 @@ class SearchResults extends Component {
   }
 
   renderEpisode = (episode) => {
+    var options = { year: 'numeric', month: 'short', day: 'numeric' };
+
     return (
       <div key={episode.guid} className="episode">
+        <div className="episodeDate">{episode.published.toLocaleDateString("en-US", options)}</div>
         <div className="episodeTitle">{episode.title}</div>
         <div className="episodeDescription">{episode.description}</div>
       </div>

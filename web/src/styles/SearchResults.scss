@@ -43,8 +43,14 @@
             // background-color: pink;
             width: 100%;
             border-bottom: 1px #f1f1f1 solid;
+            padding: 10px 0 10px;
             // height: 50px;
-
+            .episodeDate {
+                font-size: 14px;
+                color: #888888;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
             .episodeTitle {
                 font-weight: 700;
                 font-size: 18px;
