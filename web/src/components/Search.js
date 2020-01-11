@@ -19,14 +19,11 @@ class Search extends Component {
       description: null,
       artwork: null,
       artist: null,
+      episodes: []
     }
   }
 
   async handleSearchCompletion(data) {
-    // this.setState({
-    //   title: data.trackName,
-    // });
-
     axios.get(`https://cors-anywhere.herokuapp.com/${data.feedUrl}`).then(response => {
       parsePodcast(response.data, (err, response) => {
         if (err) {
@@ -39,6 +36,7 @@ class Search extends Component {
           description: response.description.long,
           artwork: data.artworkUrl600,
           artist: data.artistName,
+          episodes: response.episodes
         })
         
         console.log("Data", response);

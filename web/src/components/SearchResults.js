@@ -41,12 +41,21 @@ class SearchResults extends Component {
     } 
   }
 
-  renderEpisodeSection = () => {
+  renderEpisode = (episode) => {
     return (
-      <div>
-        Episode Section
+      <div key={episode.guid} className="episode">
+        <div className="episodeTitle">{episode.title}</div>
+        <div className="episodeDescription">{episode.description}</div>
       </div>
     )
+  }
+
+  renderEpisodeSection = () => {
+    if (this.props.podcast.episodes.length > 0) {
+
+      const episodeItems = this.props.podcast.episodes.map((ep) => this.renderEpisode(ep) );
+      return (episodeItems)
+    }
   }
   
 
