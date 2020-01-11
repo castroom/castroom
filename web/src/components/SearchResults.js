@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import scrollToComponent from 'react-scroll-to-component';
+import dompurify from 'dompurify';
 
 class SearchResults extends Component {
 
@@ -42,7 +43,7 @@ class SearchResults extends Component {
           <br/>
           {
             this.props.podcast.description ? 
-            <div className="description" dangerouslySetInnerHTML={{__html: this.props.podcast.description}}></div>
+              <div className="description" dangerouslySetInnerHTML={{__html: dompurify.sanitize(this.props.podcast.description)}}></div>
             : null
           }
         </div>
@@ -66,7 +67,7 @@ class SearchResults extends Component {
       <div key={episode.guid} className="episode">
         <div className="episodeDate">{episode.published.toLocaleDateString("en-US", dateOptions)}</div>
         <div className="episodeTitle">{title}</div>
-        <div className="episodeDescription">{episode.description}</div>
+        <div className="episodeDescription" dangerouslySetInnerHTML={{__html: dompurify.sanitize(episode.description)}}></div>
         <button className="episodePlayButton" onClick={() => {
           // open the audio in a new tab
           window.open(

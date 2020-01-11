@@ -52,22 +52,22 @@ class Search extends Component {
       <Container className="search" fluid={true}>
         <div className="searchBarWrapper">
           <Row>
-            <Col sm={12}>
+            <Col md={12}>
               <div className="searchHeader">
                 <img src={logo} width="340px" alt="logo"></img>
               </div>
             </Col>
           </Row>
           <Row>
-            <Col sm={2}></Col>
-            <Col sm={8}>
+            <Col md={2}></Col>
+            <Col md={8}>
               <SearchBar onEnter={(data) => this.handleSearchCompletion(data)}/>
             </Col>
-            <Col sm={2}></Col>
+            <Col md={2}></Col>
           </Row>
         </div>
         <Row>
-          <Col sm={12}>
+          <Col md={12}>
             <SearchResults podcast={this.state}/>
           </Col>
         </Row>

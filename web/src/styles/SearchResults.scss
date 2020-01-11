@@ -1,17 +1,12 @@
 .searchResults {
     margin-top: 100px;
-    letter-spacing: 0em;
-    // background-color: #a4a4a4;
-    // height: 300px;
 
     .leftPane {
-        // background-color: purple;
         text-align: center;
     }
 
     .rightPane {
         padding: 0 50px 0;
-        // background-color: orange;
     }
 
     .artwork {
@@ -30,8 +25,8 @@
         font-weight: 600;
         text-align: center;
         text-decoration: none;
-        cursor: pointer;
         outline: 0;
+        cursor: pointer;
     }
     
     .summaryWrapper {
@@ -43,7 +38,6 @@
 
         .artist {
             margin-top: -35px;
-            // font-weight: 500;
             color: #888888;
         }
 
@@ -56,14 +50,12 @@
 
     .episodeSection {
         font-weight: 500;
-        // margin-top: 50px;
         
         .episode {
-            // background-color: pink;
             width: 100%;
             border-bottom: 1px #f1f1f1 solid;
             padding: 10px 0 10px;
-            // height: 50px;
+
             .episodeDate {
                 font-size: 14px;
                 color: #888888;
@@ -76,7 +68,6 @@
             }
             
             .episodeDescription {
-                // word-wrap: break-word;
                 font-size: 13px;
                 color: #888888;
                 font-style: italic;
@@ -93,8 +84,8 @@
                 font-weight: 600;
                 text-align: center;
                 text-decoration: none;
-                cursor: pointer;
                 outline: 0;
+                cursor: pointer;
             }
         }
 
