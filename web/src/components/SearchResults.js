@@ -42,13 +42,14 @@ class SearchResults extends Component {
   }
 
   renderEpisode = (episode) => {
-    var options = { year: 'numeric', month: 'short', day: 'numeric' };
+    var dateOptions = { year: "numeric", month: "short", day: "numeric" };
 
     return (
       <div key={episode.guid} className="episode">
-        <div className="episodeDate">{episode.published.toLocaleDateString("en-US", options)}</div>
+        <div className="episodeDate">{episode.published.toLocaleDateString("en-US", dateOptions)}</div>
         <div className="episodeTitle">{episode.title}</div>
         <div className="episodeDescription">{episode.description}</div>
+        <button className="episodePlayButton">&#9654; {Math.floor(episode.duration / 60)} mins</button>
       </div>
     )
   }

@@ -98,7 +98,7 @@ class SearchBar extends Component {
         backgroundColor: "#f8f8f8"
       },
       suggestionHighlighted: {
-        color: "blue"
+        color: "#965DAC"
       },
       suggestionsContainerOpen: {
         width: "100%",
@@ -112,6 +112,7 @@ class SearchBar extends Component {
       suggestion: {
         margin: 30,
         fontWeight: 600,
+        cursor: "pointer",
       }
     };
 
