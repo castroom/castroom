@@ -1,21 +1,19 @@
 .search {
-    background-color: red;
+    // background-color: red;
     margin-top: 130px;
     margin-bottom: 70px;
     font-weight: 700;
     letter-spacing: -0.04em;
-    
-    // min-height: 300px;
-    // height: 50vh;
 
     .searchBarWrapper {
         height: 500px;
-        background-color: pink;
+        // background-color: pink;
     }
 
     .searchMessage{
         text-align: center;
         font-size: 45px;
         padding-bottom: 40px;
+        padding-top: 50px;
     }
 }

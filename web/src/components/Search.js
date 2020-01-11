@@ -15,24 +15,33 @@ class Search extends Component {
     super(props);
 
     this.state = {
-      title: null
+      title: null,
+      description: null,
+      artwork: null,
+      artist: null,
     }
   }
 
   async handleSearchCompletion(data) {
-    this.setState({
-      title: data.trackName,
-    });
+    // this.setState({
+    //   title: data.trackName,
+    // });
 
     axios.get(`https://cors-anywhere.herokuapp.com/${data.feedUrl}`).then(response => {
-      console.log(response.data)
-      parsePodcast(response.data, (err, data) => {
+      parsePodcast(response.data, (err, response) => {
         if (err) {
             console.error("Parsing error", err);
             return;
         }
+
+        this.setState({
+          title: data.trackName,
+          description: response.description.long,
+          artwork: data.artworkUrl600,
+          artist: data.artistName,
+        })
         
-        console.log("Data", data);
+        console.log("Data", response);
       });
     });
   }
@@ -58,7 +67,7 @@ class Search extends Component {
         </div>
         <Row>
           <Col sm={12}>
-            <SearchResults title={this.state.title}/>
+            <SearchResults podcast={this.state}/>
           </Col>
         </Row>
       </Container>

@@ -5,37 +5,36 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 class SearchResults extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      title: null
-    };
-  }
-  
-  componentDidUpdate(prevProps) {
-    if (this.props.title !== prevProps.title) {
-      this.setState({
-        title: this.props.title
-      })
-    }
-  }
-
-  // TODO: need to re-render the component when the props change
   renderArtwork = () => {
-    return (
-      <div>
-        Artwork
-      </div>
-    )
+    if (this.props.podcast.artwork) {
+      return (
+        <img src={this.props.podcast.artwork} className="artwork" width="100%" alt="Artwork"></img>
+      )
+    }
+    return null;
   }
 
   renderSummarySection = () => {
-    return (
-      <div>
-        {this.props.title}
-      </div>
-    )
+    if (this.props.podcast.title) {
+      return (
+        <div className="summaryWrapper">
+          <div className="title">{this.props.podcast.title}</div> <br/>
+          {
+            this.props.podcast.artist ? 
+              <div className="artist">by {this.props.podcast.artist}</div> 
+            : null
+          }
+          <br/>
+          {
+            this.props.podcast.description ? 
+            <div className="description" dangerouslySetInnerHTML={{__html: this.props.podcast.description}}></div>
+            : null
+          }
+        </div>
+      )
+    }
+    
   }
 
   renderEpisodeSection = () => {

@@ -1,13 +1,30 @@
 .searchResults {
     margin-top: 100px;
-    background-color: #a4a4a4;
+    // background-color: #a4a4a4;
     // height: 300px;
 
     .leftPane {
-        background-color: purple;
+        // background-color: purple;
     }
 
     .rightPane {
-        background-color: orange;
+        padding: 0 50px 0;
+        // background-color: orange;
     }
+
+    .artwork {
+        border-radius: 10px;
+    }
+    
+    .summaryWrapper {
+        .title {
+            font-size: 35px;
+        }
+
+        .artist {
+            margin-top: -40px;
+        }
+    }
+    
+
 }
