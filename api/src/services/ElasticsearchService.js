@@ -16,7 +16,7 @@ export default class ElasticsearchService {
       index: "podcasts",
       body: {
         query: {
-          match: {
+          match_phrase_prefix: {
             trackName: value,
           },
         },
