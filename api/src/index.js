@@ -22,7 +22,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(helmet()); // sets security related HTTP response headers
 
-app.get("/", cors(corsOptions), (req, res) => {
+// TODO: send a 404 on all other requests
+app.get("/search", cors(corsOptions), (req, res) => {
   if (req && req.query.q) {
     es.search("trackName", req.query.q, 5).then((response) => {
       console.log(req.query.q);

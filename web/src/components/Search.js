@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
-// import podcastFeedParser from "podcast-feed-parser";
 import parsePodcast from "node-podcast-parser";
 import axios from "axios";
 import logo from "../logo.png";
@@ -25,7 +24,9 @@ class Search extends Component {
   }
 
   async handleSearchCompletion(data) {
-    axios.get(`https://cors-anywhere.herokuapp.com/${data.feedUrl}`).then(response => {
+    // send the request through the server to prevent cors issues 
+    // and issues with cors-anywhere + FeedBurner feeds not responding proper data
+    axios.get(`https://api.castroom.co/feed?url=${data.feedUrl}`).then(response => {
       parsePodcast(response.data, (err, response) => {
         if (err) {
             alert("Error Retrieving Podcasts - Castroom doesn't currently support podcasts hosted on FeedBurner")
