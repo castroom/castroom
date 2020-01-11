@@ -45,6 +45,9 @@ class Search extends Component {
         
         console.log("Data", response);
       });
+    }).catch(err => {
+      console.log(err);
+      alert("Could not get podcast metadata")
     });
   }
 
