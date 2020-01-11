@@ -95,7 +95,7 @@ class SearchBar extends Component {
         paddingLeft: 30,
         border: 0,
         outlineWidth: 0,
-        backgroundColor: "#f3f3f3"
+        backgroundColor: "#f8f8f8"
       },
       suggestionHighlighted: {
         color: "blue"
@@ -107,7 +107,7 @@ class SearchBar extends Component {
         borderRadius: 7,
         zIndex: 2,
         marginTop: 5,
-        paddingBottom: 10
+        paddingBottom: 10,
       },
       suggestion: {
         margin: 30,
