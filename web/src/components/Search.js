@@ -53,7 +53,7 @@ class Search extends Component {
         <div className="searchBarWrapper">
           <Row>
             <Col sm={12}>
-              <div className="searchMessage">
+              <div className="searchHeader">
                 <img src={logo} width="340px" alt="logo"></img>
               </div>
             </Col>
