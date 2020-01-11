@@ -27,7 +27,7 @@ class SearchResults extends Component {
           <div className="title">{this.props.podcast.title}</div> <br/>
           {
             this.props.podcast.artist ? 
-              <div className="artist">by {this.props.podcast.artist}</div> 
+              <div className="artist">by: {this.props.podcast.artist}</div> 
             : null
           }
           <br/>
@@ -43,13 +43,28 @@ class SearchResults extends Component {
 
   renderEpisode = (episode) => {
     var dateOptions = { year: "numeric", month: "short", day: "numeric" };
+    var episodeLength = Math.floor(episode.duration / 60);
 
+    // add the episode number to the title if it exists
+    var title;
+    if (episode.episode) {
+      title = `${episode.episode}: ${episode.title}`;
+    } else {
+      title = episode.title;
+    }
+    
     return (
       <div key={episode.guid} className="episode">
         <div className="episodeDate">{episode.published.toLocaleDateString("en-US", dateOptions)}</div>
-        <div className="episodeTitle">{episode.title}</div>
+        <div className="episodeTitle">{title}</div>
         <div className="episodeDescription">{episode.description}</div>
-        <button className="episodePlayButton">&#9654; {Math.floor(episode.duration / 60)} mins</button>
+        <button className="episodePlayButton" onClick={() => {
+          // open the audio in a new tab
+          window.open(
+            episode.enclosure.url,
+            '_blank'
+          );
+        }}>&#9654; {episodeLength} mins</button>
       </div>
     )
   }

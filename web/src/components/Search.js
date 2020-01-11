@@ -27,6 +27,7 @@ class Search extends Component {
     axios.get(`https://cors-anywhere.herokuapp.com/${data.feedUrl}`).then(response => {
       parsePodcast(response.data, (err, response) => {
         if (err) {
+            alert("Error Retrieving Podcasts - Castroom doesn't currently support podcasts hosted on FeedBurner")
             console.error("Parsing error", err);
             return;
         }
