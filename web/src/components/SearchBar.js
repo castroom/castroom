@@ -71,9 +71,6 @@ class SearchBar extends Component {
     <div className="suggestion">
       <span className="suggestionName">{suggestion._source.trackName}</span><br/>
       <span className="suggestionArtist">{suggestion._source.artistName}</span>
-      <span className="suggestionNumEpisodes">
-        {suggestion._source.trackCount} Episode{suggestion._source.trackCount > 1 ? "s" : ""}
-      </span>
     </div>
   );
 
