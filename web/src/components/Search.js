@@ -26,7 +26,7 @@ class Search extends Component {
   async handleSearchCompletion(data) {
     // send the request through the server to prevent cors issues 
     // and issues with cors-anywhere + FeedBurner feeds not responding proper data
-    axios.get(`https://api.castroom.co/feed?url=${data.feedUrl}`).then(response => {
+    axios.get(`https://castroom-api.herokuapp.com/feed?url=${data.feedUrl}`).then(response => {
       parsePodcast(response.data, (err, response) => {
         if (err) {
             alert("Error Retrieving Podcasts - Castroom doesn't currently support podcasts hosted on FeedBurner")

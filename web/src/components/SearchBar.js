@@ -48,7 +48,7 @@ class SearchBar extends Component {
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = async ({ value }) => {
-    const res = get(`https://api.castroom.co/search?q=${value}`);
+    const res = get(`https://castroom-api.herokuapp.com/search?q=${value}`);
     res.then(response => {
       this.setState({
         suggestions: response || []
