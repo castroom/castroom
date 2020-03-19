@@ -18,13 +18,13 @@ spec:
         imagePullPolicy: "Always"
         env:
           - name: AWS_DISCOVERY_CRAWLER_ACCESS_KEY_ID
-            value: "AKIAXHBB3XTHABT2PYWC"
+            value: ""
           - name: AWS_DISCOVERY_CRAWLER_SECRET_ACCESS_KEY
-            value: "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"
+            value: ""
           - name: SQS_URL
-            value: "https://sqs.us-east-2.amazonaws.com/496139746510/discovery-task-queue"
+            value: ""
           - name: MASTER_NODE_URL
-            value: "http://34.69.29.77:31476"
+            value: ""
           - name: ELASTICSEARCH_URL
-            value: "https://search-castroom-evemryzsuzqga6r6i5muonzf3e.us-east-2.es.amazonaws.com"
+            value: ""
         

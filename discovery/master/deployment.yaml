@@ -22,6 +22,6 @@ spec:
           - name: PORT
             value: "8080"
           - name: AWS_DISCOVERY_MASTER_ACCESS_KEY_ID
-            value: "AKIAXHBB3XTHAX6CUTMJ"
+            value: ""
           - name: AWS_DISCOVERY_MASTER_SECRET_ACCESS_KEY
-            value: "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"
+            value: ""
