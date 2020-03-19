@@ -29,6 +29,18 @@ Castroom is a podcast search engine. It was primarily made to learn how to make 
 
 ![project_structure](https://user-images.githubusercontent.com/4590693/77039990-ad258580-697c-11ea-84fa-61f0d5d3f14b.png)
 
+# Technologies Used
+- Docker
+- Google Kubernetes Engine
+- Amazon Simple Queue Service
+- Amazon Elasticsearch Service
+- Heroku
+- Firebase Hosting
+- React
+- Node.js
+- LevelDB
+- Datadog
+
 # Screenshots
 <img width="1284" alt="Search" src="https://user-images.githubusercontent.com/4590693/72404218-c4908a00-3711-11ea-9bd1-c3c6a1bbb4c5.png">
 <img width="1286" alt="Search Results" src="https://user-images.githubusercontent.com/4590693/72404219-c4908a00-3711-11ea-87ea-762630172249.png">
