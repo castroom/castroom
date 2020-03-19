@@ -19,7 +19,7 @@ docker run --rm --env-file prod.env gcr.io/castroom/discovery-crawler:v1
 ## Deploying
 ### First-time Deployment
 
-> Make sure that all the missing values are provided in `deployment.yaml`
+> Make sure that all the missing values are provided in `deployment.yaml` and in `config.js`
 
 
 1) Create the cluster
