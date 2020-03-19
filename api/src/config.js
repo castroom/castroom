@@ -9,7 +9,7 @@ const config = {
     ),
     region: "us-east-2",
   }),
-  elasticSearchUrl: "https://search-castroom-evemryzsuzqga6r6i5muonzf3e.us-east-2.es.amazonaws.com",
+  elasticSearchUrl: "",
   Connection: AmazonConnection,
 };
 
