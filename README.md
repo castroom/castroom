@@ -28,7 +28,7 @@ Castroom is a podcast search engine. It was primarily made to learn how to make 
 - frontend for the search engine
 - managed by Firebase Hosting
 
-![project_structure](https://user-images.githubusercontent.com/4590693/77039990-ad258580-697c-11ea-84fa-61f0d5d3f14b.png)
+![project-structure](https://user-images.githubusercontent.com/4590693/77203566-5754f880-6ab6-11ea-91ba-1bc234ae1d2d.png)
 
 # Technologies Used
 - Docker
