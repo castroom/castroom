@@ -1,2 +1,2 @@
 # Discovery
-Crawls the web for new podcasts and updates ElasticSearch with the latest podcasts
+Crawls the web for new podcasts and updates Elasticsearch with the latest podcasts
