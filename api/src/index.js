@@ -5,7 +5,7 @@ import cors from "cors";
 import axios from "axios";
 import ElasticsearchService from "./services/ElasticsearchService";
 
-const whitelist = ["https://castroom.co", "http://localhost:3000", "https://castroom.web.app", "https://castroom.firebaseapp.com"];
+const whitelist = ["https://castroom.web.app", "https://castroom.firebaseapp.com"];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 app.get("/search", cors(corsOptions), (req, res) => {
   if (req && req.query.q) {
     es.search("trackName", req.query.q, 5).then((response) => {
-      console.log(req.query.q);
+      // console.log(req.query.q);
       res.send(response);
     }).catch((err) => {
       console.log(err);
@@ -42,7 +42,7 @@ app.get("/search", cors(corsOptions), (req, res) => {
 app.get("/feed", cors(corsOptions), async (req, res) => {
   if (req && req.query.url) {
     axios.get(req.query.url).then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       res.send(response.data);
     }).catch((err) => {
       console.log(err);
@@ -52,6 +52,17 @@ app.get("/feed", cors(corsOptions), async (req, res) => {
     res.sendStatus(200);
   }
 });
+
+// send an arbitrary request to elasticsearch
+// this is used to warm up the elasticsearch instance and to see the current latency
+app.get("/ping", (req, res) => {
+  console.log("Ping");
+  es.search("trackName", "a", 1).then((response) => {
+    res.send("Pong");
+  }).catch((err) => {
+    console.log(err);
+  });
+})
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
