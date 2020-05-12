@@ -11,7 +11,7 @@ class Website extends Component {
     return (
       <Container className="website">
         <Col md={12} className="notice">
-          The podcast index was last updated January 2020. Please allow a few seconds for the first search result.
+          The podcast index was last updated January 2020.
         </Col>
         <Row>
           <Search/>

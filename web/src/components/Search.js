@@ -29,7 +29,7 @@ class Search extends Component {
     axios.get(`https://castroom-api.herokuapp.com/feed?url=${data.feedUrl}`).then(response => {
       parsePodcast(response.data, (err, response) => {
         if (err) {
-            alert("Error Retrieving Podcasts - Castroom doesn't currently support podcasts hosted on FeedBurner")
+            alert("Error Retrieving Podcasts")
             console.error("Parsing error", err);
             return;
         }
@@ -42,8 +42,6 @@ class Search extends Component {
           episodes: response.episodes,
           iTunesLink: data.trackViewUrl
         })
-        
-        console.log("Data", response);
       });
     }).catch(err => {
       console.log(err);
@@ -58,7 +56,7 @@ class Search extends Component {
           <Row>
             <Col md={12}>
               <div className="searchHeader">
-                <img responsive src={logo} width="400px" alt="logo"></img>
+                <img responsive src={logo} alt="logo"></img>
               </div>
             </Col>
           </Row>
