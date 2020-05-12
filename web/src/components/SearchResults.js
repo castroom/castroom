@@ -3,13 +3,14 @@ import "../styles/SearchResults.scss";
 import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Fade from 'react-reveal/Fade';
 import scrollToComponent from 'react-scroll-to-component';
 import dompurify from 'dompurify';
 
 class SearchResults extends Component {
 
   componentDidUpdate() {
-    scrollToComponent(this.summary, { offset: 0, align: "top", duration: 250, ease:"inSine"});
+    scrollToComponent(this.summary, { offset: 0, align: "top", duration: 500, ease:"inSine"});
   }
 
   renderArtwork = () => {
@@ -64,24 +65,25 @@ class SearchResults extends Component {
     }
     
     return (
-      <div key={episode.guid} className="episode">
-        <div className="episodeDate">{episode.published.toLocaleDateString("en-US", dateOptions)}</div>
-        <div className="episodeTitle">{title}</div>
-        <div className="episodeDescription" dangerouslySetInnerHTML={{__html: dompurify.sanitize(episode.description)}}></div>
-        <button className="episodePlayButton" onClick={() => {
-          // open the audio in a new tab
-          window.open(
-            episode.enclosure.url,
-            '_blank'
-          );
-        }}>&#9654; {episodeLength} min</button>
-      </div>
+      <Fade bottom key={episode.guid}>
+        <div key={episode.guid} className="episode">
+          <div className="episodeDate">{episode.published.toLocaleDateString("en-US", dateOptions)}</div>
+          <div className="episodeTitle">{title}</div>
+          <div className="episodeDescription" dangerouslySetInnerHTML={{__html: dompurify.sanitize(episode.description)}}></div>
+          <button className="episodePlayButton" onClick={() => {
+            // open the audio in a new tab
+            window.open(
+              episode.enclosure.url,
+              '_blank'
+            );
+          }}>&#9654; {episodeLength} min</button>
+        </div>
+      </Fade>
     )
   }
 
   renderEpisodeSection = () => {
     if (this.props.podcast.episodes.length > 0) {
-
       const episodeItems = this.props.podcast.episodes.map((ep) => this.renderEpisode(ep) );
       return (episodeItems)
     }
@@ -92,19 +94,21 @@ class SearchResults extends Component {
     if (this.props.podcast.title) {
       return (
         <Container className="searchResults" ref={(Container) => { this.summary = Container; }} fluid={true}>
-          <Row>
-            <Col sm={3} className="leftPane">
-              {this.renderArtwork()}
-            </Col>
-            <Col sm={9} className="rightPane">
-              <Row className="summarySection">
-                {this.renderSummarySection()}
-              </Row>
-              <Row className="episodeSection">
-                {this.renderEpisodeSection()}
-              </Row>
-            </Col>
-          </Row>
+          <Fade bottom>
+            <Row>
+              <Col sm={3} className="leftPane">
+                {this.renderArtwork()}
+              </Col>
+              <Col sm={9} className="rightPane">
+                <Row className="summarySection">
+                  {this.renderSummarySection()}
+                </Row>
+                <Row className="episodeSection">
+                  {this.renderEpisodeSection()}
+                </Row>
+              </Col>
+            </Row>
+          </Fade>
         </Container>
       );
     }
