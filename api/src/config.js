@@ -9,7 +9,8 @@ const config = {
     ),
     region: "us-east-2",
   }),
-  elasticSearchUrl: "",
+  elasticSearchUrl: process.env.ELASTICSEARCH_URL,
+  elasticSearchIndex: "podcasts",
   Connection: AmazonConnection,
 };
 
