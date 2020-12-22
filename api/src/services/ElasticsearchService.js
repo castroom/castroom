@@ -13,7 +13,7 @@ export default class ElasticsearchService {
 
   search(field, value, resultCount) {
     return this.client.search({
-      index: "podcasts",
+      index: config.elasticSearchIndex,
       body: {
         query: {
           match_phrase_prefix: {
