@@ -3,11 +3,6 @@
 # Overview
 Castroom is a podcast search engine. It was primarily made to learn how to make a distributed web crawler using Kubernetes. It is capable of gathering hundreds of thousands of podcasts within a few hours, and can easily be scaled up even more with one simple command. 
 
-### Notes
-- Since this is an educational project, it is no longer crawling to prevent high costs but the search engine is still up with data gathered from January 2020.
-- This is using the default Elasticsearch index since learning indexing was not the goal of this project - as a result, it has issues like not being able to search special characters :) 
-- Sometimes the first search takes some time to respond but after that it should respond fairly quickly
-
 # Project Structure
 ### Discovery
 #### Master
@@ -45,3 +40,8 @@ Castroom is a podcast search engine. It was primarily made to learn how to make 
 # Screenshots
 <img width="1284" alt="Search" src="https://user-images.githubusercontent.com/4590693/72404218-c4908a00-3711-11ea-9bd1-c3c6a1bbb4c5.png">
 <img width="1286" alt="Search Results" src="https://user-images.githubusercontent.com/4590693/72404219-c4908a00-3711-11ea-87ea-762630172249.png">
+
+<br><br><br><br>
+
+<img width="908" alt="GIF of Castroom" src="https://user-images.githubusercontent.com/4590693/147375107-b367cc1a-3926-4634-9e3d-36c3a6d7b042.gif">
+
