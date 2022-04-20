@@ -8,7 +8,7 @@ Castroom is a podcast search engine. It was primarily made to learn how to make 
 #### Master
 - coordinates all the `crawler` jobs
 - maintains a local cache (using LevelDB) to prevent the same URL from being crawled multiple times
-- receives data from the `crawler` nodes and pushes both the queue
+- receives data from the `crawler` nodes and pushes to the queue
 - the `crawler` nodes send all data to this node after crawling a website
 - send the data to ElasticSearch on completion
 - managed by Google Kubernetes Engine
@@ -17,7 +17,7 @@ Castroom is a podcast search engine. It was primarily made to learn how to make 
 - goes through a proxy to bypass certain restrictions
 - managed by Google Kubernetes Engine
 ### API 
-- provides endpoints for querying Elasticsearch and retriving podcast Feed information
+- provides endpoints for querying Elasticsearch and retrieving podcast Feed information
 - hosted on Heroku
 ### Web
 - frontend for the search engine
